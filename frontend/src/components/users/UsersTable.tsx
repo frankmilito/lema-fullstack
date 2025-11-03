@@ -13,8 +13,14 @@ interface UsersTableProps {
     onPageChange: (page: number) => void;
 }
 
-function formatAddress(): string {
-    return '—';
+function formatAddress(user: User): string {
+    const parts: string[] = [];
+    if (user.street) parts.push(user.street);
+    if (user.city) parts.push(user.city);
+    if (user.state) parts.push(user.state);
+    if (user.zipcode) parts.push(user.zipcode);
+
+    return parts.length > 0 ? parts.join(', ') : '—';
 }
 
 export function UsersTable({
@@ -45,7 +51,7 @@ export function UsersTable({
         {
             id: 'address',
             header: 'Address',
-            accessor: () => formatAddress(),
+            accessor: (user) => formatAddress(user),
             cellRenderer: (value) => (
                 <span className="text-gray-700">{String(value)}</span>
             ),

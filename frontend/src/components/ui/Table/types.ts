@@ -20,7 +20,6 @@ export interface TableProps<T extends Record<string, unknown>> {
     className?: string;
     getRowKey?: (row: T, index: number) => string | number;
     onRowClick?: (row: T) => void;
-    showLoadingSkeleton?: boolean;
 }
 
 export interface PaginationConfig {
