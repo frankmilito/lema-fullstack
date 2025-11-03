@@ -1,4 +1,7 @@
 import type { PaginationConfig } from './Table/types';
+import { Button } from './Button';
+import chevronRight from '../../assets/chevron-right.svg';
+import chevronLeft from '../../assets/chevron-left.svg';
 
 interface PaginationProps extends PaginationConfig {
     className?: string;
@@ -66,35 +69,17 @@ export function Pagination({
             className={`flex items-center justify-end gap-1 ${className}`}
             aria-label="Pagination"
         >
-            <button
+            <Button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1 || isLoading}
-                className={`
-          px-3 py-2 text-sm font-medium rounded-md
-          transition-colors
-          ${currentPage === 1 || isLoading
-                        ? 'text-gray-400 cursor-not-allowed'
-                        : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                    }
-        `}
+                variant="ghost"
+                size="md"
                 aria-label="Previous page"
                 aria-disabled={currentPage === 1}
+                className="flex items-center gap-1"
             >
-                <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15 19l-7-7 7-7"
-                    />
-                </svg>
-            </button>
+                <img src={chevronLeft} alt="Previous page" /> Previous
+            </Button>
 
             <div className="flex items-center gap-1">
                 {pageNumbers.map((page, index) => {
@@ -112,57 +97,33 @@ export function Pagination({
                     const isActive = page === currentPage;
 
                     return (
-                        <button
+                        <Button
                             key={page}
                             onClick={() => handlePageChange(page)}
                             disabled={isLoading}
-                            className={`
-                min-w-10 px-3 py-2 text-sm font-medium rounded-md
-                transition-colors
-                ${isActive
-                                    ? 'bg-gray-100 text-gray-900 border border-gray-300'
-                                    : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                                }
-                ${isLoading ? 'cursor-not-allowed opacity-50' : ''}
-              `}
+                            variant={isActive ? 'secondary' : 'ghost'}
+                            size="md"
+                            className={isActive ? 'border border-gray-300' : ''}
                             aria-label={`Page ${page}`}
                             aria-current={isActive ? 'page' : undefined}
                         >
                             {page}
-                        </button>
+                        </Button>
                     );
                 })}
             </div>
 
-            <button
+            <Button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages || isLoading}
-                className={`
-          px-3 py-2 text-sm font-medium rounded-md
-          transition-colors
-          ${currentPage === totalPages || isLoading
-                        ? 'text-gray-400 cursor-not-allowed'
-                        : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                    }
-        `}
+                variant="ghost"
+                size="md"
                 aria-label="Next page"
                 aria-disabled={currentPage === totalPages}
+                className="flex items-center gap-1"
             >
-                <svg
-                    className="w-5 h-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                    />
-                </svg>
-            </button>
+                Next  <img src={chevronRight} alt="Next page" />
+            </Button>
         </nav>
     );
 }
