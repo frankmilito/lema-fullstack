@@ -11,6 +11,7 @@ interface UsersTableProps {
     totalItems: number;
     pageSize: number;
     onPageChange: (page: number) => void;
+    onRowClick: (user: User) => void;
 }
 
 function formatAddress(user: User): string {
@@ -32,6 +33,7 @@ export function UsersTable({
     totalItems,
     pageSize,
     onPageChange,
+    onRowClick,
 }: UsersTableProps) {
     const columns: ColumnDefinition<User>[] = [
         {
@@ -63,6 +65,7 @@ export function UsersTable({
                 error={error}
                 emptyMessage="No users found"
                 getRowKey={(user) => user.id}
+                onRowClick={onRowClick}
             />
 
             {totalPages > 1 && (
