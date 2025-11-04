@@ -91,16 +91,20 @@ export function Table<T extends Record<string, unknown>>({
         <div className={`bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden ${className}`}>
             <div className="overflow-x-auto">
                 <table className="w-full">
-                    <thead className="bg-gray-50 border-b border-gray-200">
+                    <thead className="border-b border-gray-200">
                         <tr>
                             {columns.map((column) => (
                                 <th
                                     key={column.id}
                                     scope="col"
+                                    style={column.width ? {
+                                        width: typeof column.width === 'number' ? `${column.width}px` : column.width,
+                                        maxWidth: typeof column.width === 'number' ? `${column.width}px` : column.width
+                                    } : undefined}
                                     className={`
-                    px-6 py-3 text-xs font-semibold text-gray-700 uppercase tracking-wider
+                    px-6 py-3 text-sm font-medium text-primary-200  tracking-wider
                     ${getAlignmentClass(column.align)}
-                    ${column.headerClassName || ''}
+                                    ${column.headerClassName || ''}
                   `}
                                 >
                                     {renderHeader(column)}
@@ -121,13 +125,26 @@ export function Table<T extends Record<string, unknown>>({
                                 {columns.map((column) => (
                                     <td
                                         key={column.id}
+                                        style={column.width ? {
+                                            width: typeof column.width === 'number' ? `${column.width}px` : column.width,
+                                            maxWidth: typeof column.width === 'number' ? `${column.width}px` : column.width,
+                                            minWidth: typeof column.width === 'number' ? `${column.width}px` : column.width
+                                        } : undefined}
                                         className={`
-                      px-6 py-4 whitespace-nowrap text-sm text-gray-900
+                      px-6 py-4 text-sm text-primary-100
                       ${getAlignmentClass(column.align)}
                       ${column.cellClassName || ''}
                     `}
                                     >
-                                        {renderCell(column, row)}
+                                        {column.width ? (
+                                            <div className="truncate">
+                                                {renderCell(column, row)}
+                                            </div>
+                                        ) : (
+                                            <div className="whitespace-nowrap">
+                                                {renderCell(column, row)}
+                                            </div>
+                                        )}
                                     </td>
                                 ))}
                             </tr>

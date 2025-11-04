@@ -44,17 +44,13 @@ export function UsersTable({
             id: 'email',
             header: 'Email address',
             accessor: 'email',
-            cellRenderer: (value) => (
-                <span className="text-gray-900">{String(value)}</span>
-            ),
         },
         {
             id: 'address',
             header: 'Address',
             accessor: (user) => formatAddress(user),
-            cellRenderer: (value) => (
-                <span className="text-gray-700">{String(value)}</span>
-            ),
+            width: 392,
+
         },
     ];
 

@@ -9,6 +9,7 @@ export interface ColumnDefinition<T> {
     headerClassName?: string;
     cellClassName?: string;
     align?: 'left' | 'right' | 'center';
+    width?: string | number;
 }
 
 export interface TableProps<T extends Record<string, unknown>> {
