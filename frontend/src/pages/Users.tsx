@@ -4,6 +4,7 @@ import { UsersTable } from '../components/users/UsersTable';
 import { PageLayout } from '../components/layout/PageLayout';
 import { useNavigate } from 'react-router-dom';
 import type { User } from '../types/users';
+
 const Users = () => {
     const navigate = useNavigate();
     const [page, setPage] = useState(1);

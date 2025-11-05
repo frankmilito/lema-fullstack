@@ -12,7 +12,7 @@ export function Pagination({
     totalPages,
     onPageChange,
     isLoading = false,
-    maxVisiblePages = 4,
+    maxVisiblePages = 7,
     className = '',
 }: PaginationProps) {
     const getPageNumbers = (): (number | 'ellipsis')[] => {

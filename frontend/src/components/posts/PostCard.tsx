@@ -4,17 +4,28 @@ export interface PostCardProps {
     title: string;
     content: string;
     onDelete?: () => void;
+    onClick?: () => void;
     className?: string;
 }
 
-export function PostCard({ title, content, onDelete, className = '' }: PostCardProps) {
+export function PostCard({ title, content, onDelete, onClick, className = '' }: PostCardProps) {
     return (
         <div
             className={`
                 bg-white rounded-lg border border-gray-200 shadow-sm
                 p-6 flex flex-col min-w-[280px]
+                ${onClick ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}
                 ${className}
             `}
+            onClick={onClick}
+            role={onClick ? 'button' : undefined}
+            tabIndex={onClick ? 0 : undefined}
+            onKeyDown={onClick ? (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onClick();
+                }
+            } : undefined}
         >
             <div className="flex items-start justify-between mb-4">
                 <h3 className="text-lg font-bold text-gray-900 pr-2 flex-1">
@@ -22,7 +33,10 @@ export function PostCard({ title, content, onDelete, className = '' }: PostCardP
                 </h3>
                 {onDelete && (
                     <button
-                        onClick={onDelete}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            onDelete();
+                        }}
                         className="shrink-0 p-1 hover:bg-red-50 rounded transition-colors"
                         aria-label="Delete post"
                         type="button"

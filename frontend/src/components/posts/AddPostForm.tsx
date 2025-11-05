@@ -1,26 +1,48 @@
-import { useState, type FormEvent } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '../ui/Button';
+import { postFormSchema, type PostFormData } from '../../schemas/post';
 
 export interface AddPostFormProps {
     onSubmit: (data: { title: string; body: string }) => void | Promise<void>;
     onCancel: () => void;
     isLoading?: boolean;
+    initialTitle?: string;
+    initialBody?: string;
 }
 
-export function AddPostForm({ onSubmit, onCancel, isLoading = false }: AddPostFormProps) {
-    const [title, setTitle] = useState('');
-    const [body, setBody] = useState('');
+export function AddPostForm({
+    onSubmit,
+    onCancel,
+    isLoading = false,
+    initialTitle = '',
+    initialBody = ''
+}: AddPostFormProps) {
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (!title.trim() || !body.trim()) {
-            return;
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+        reset,
+    } = useForm<PostFormData>({
+        resolver: zodResolver(postFormSchema),
+        defaultValues: {
+            title: initialTitle,
+            body: initialBody,
+        },
+    });
+
+    const onSubmitForm = async (data: PostFormData) => {
+        await onSubmit(data);
+        if (!initialTitle && !initialBody) {
+            reset();
         }
-        await onSubmit({ title: title.trim(), body: body.trim() });
     };
 
+    const isFormLoading = isLoading || isSubmitting;
+
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-6">
             <div>
                 <label htmlFor="post-title" className="block text-sm font-medium text-primary-100 mb-2">
                     Post title
@@ -28,12 +50,15 @@ export function AddPostForm({ onSubmit, onCancel, isLoading = false }: AddPostFo
                 <input
                     id="post-title"
                     type="text"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
+                    {...register('title')}
                     placeholder="Give your post a title"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    disabled={isLoading}
+                    className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.title ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                        }`}
+                    disabled={isFormLoading}
                 />
+                {errors.title && (
+                    <p className="mt-1 text-sm text-red-500">{errors.title.message}</p>
+                )}
             </div>
 
             <div>
@@ -42,13 +67,16 @@ export function AddPostForm({ onSubmit, onCancel, isLoading = false }: AddPostFo
                 </label>
                 <textarea
                     id="post-body"
-                    value={body}
-                    onChange={(e) => setBody(e.target.value)}
+                    {...register('body')}
                     placeholder="Write something mind-blowing"
                     rows={6}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y"
-                    disabled={isLoading}
+                    className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y ${errors.body ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                        }`}
+                    disabled={isFormLoading}
                 />
+                {errors.body && (
+                    <p className="mt-1 text-sm text-red-500">{errors.body.message}</p>
+                )}
             </div>
 
             <div className="flex justify-end gap-3 pt-4">
@@ -56,17 +84,17 @@ export function AddPostForm({ onSubmit, onCancel, isLoading = false }: AddPostFo
                     type="button"
                     variant="outline"
                     onClick={onCancel}
-                    disabled={isLoading}
+                    disabled={isFormLoading}
                 >
                     Cancel
                 </Button>
                 <Button
                     type="submit"
                     variant="tertiary"
-                    isLoading={isLoading}
-                    disabled={!title.trim() || !body.trim() || isLoading}
+                    isLoading={isFormLoading}
+                    disabled={isFormLoading}
                 >
-                    Publish
+                    {initialTitle ? 'Update' : 'Publish'}
                 </Button>
             </div>
         </form>

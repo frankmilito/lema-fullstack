@@ -60,7 +60,9 @@ export function Table<T extends Record<string, unknown>>({
             <div className={`bg-white rounded-lg shadow-sm border border-gray-200 ${className}`}>
                 <div className="overflow-x-auto">
                     <table className="w-full">
-                        <Spinner />
+                        <div className="flex justify-center items-center h-full py-8">
+                            <Spinner />
+                        </div>
                     </table>
                 </div>
             </div>
@@ -101,10 +103,7 @@ export function Table<T extends Record<string, unknown>>({
                                         width: typeof column.width === 'number' ? `${column.width}px` : column.width,
                                         maxWidth: typeof column.width === 'number' ? `${column.width}px` : column.width
                                     } : undefined}
-                                    className={`
-                    px-6 py-3 text-sm font-medium text-primary-200  tracking-wider
-                    ${getAlignmentClass(column.align)}
-                                    ${column.headerClassName || ''}
+                                    className={` px-6 py-3 text-sm font-medium text-primary-200  tracking-wider  ${getAlignmentClass(column.align)}             ${column.headerClassName || ''}
                   `}
                                 >
                                     {renderHeader(column)}
@@ -115,11 +114,7 @@ export function Table<T extends Record<string, unknown>>({
                     <tbody className="bg-white divide-y divide-gray-200">
                         {data.map((row, rowIndex) => (
                             <tr
-                                key={getRowKey(row, rowIndex)}
-                                className={`
-                  hover:bg-gray-50 transition-colors
-                  ${onRowClick ? 'cursor-pointer' : ''}
-                `}
+                                key={getRowKey(row, rowIndex)} className={` hover:bg-gray-50 transition-colors ${onRowClick ? 'cursor-pointer' : ''}  `}
                                 onClick={() => onRowClick?.(row)}
                             >
                                 {columns.map((column) => (
@@ -130,11 +125,7 @@ export function Table<T extends Record<string, unknown>>({
                                             maxWidth: typeof column.width === 'number' ? `${column.width}px` : column.width,
                                             minWidth: typeof column.width === 'number' ? `${column.width}px` : column.width
                                         } : undefined}
-                                        className={`
-                      px-6 py-4 text-sm text-primary-100
-                      ${getAlignmentClass(column.align)}
-                      ${column.cellClassName || ''}
-                    `}
+                                        className={` px-6 py-4 text-sm text-primary-100 ${getAlignmentClass(column.align)} ${column.cellClassName || ''} `}
                                     >
                                         {column.width ? (
                                             <div className="truncate">
