@@ -57,7 +57,6 @@ export const createPost = (
           body,
           created_at,
         };
-        console.log('Post created successfully:', newPost);
         resolve(newPost);
       }
     );

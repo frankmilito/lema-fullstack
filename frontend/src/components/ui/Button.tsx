@@ -1,4 +1,5 @@
 import type { ReactNode, ButtonHTMLAttributes } from 'react';
+import { cn } from '../../utils/cn';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'ghost' | 'outline';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -29,7 +30,7 @@ export function Button({
     size = 'md',
     isLoading = false,
     disabled,
-    className = '',
+    className,
     children,
     ...props
 }: ButtonProps) {
@@ -39,15 +40,12 @@ export function Button({
         <button
             {...props}
             disabled={isDisabled}
-            className={`
-                font-medium rounded-md
-                transition-colors
-                focus:outline-none
-                disabled:cursor-not-allowed
-                ${variantStyles[variant]}
-                ${sizeStyles[size]}
-                ${className}
-            `}
+            className={cn(
+                'font-medium rounded-md transition-colors focus:outline-none disabled:cursor-not-allowed',
+                variantStyles[variant],
+                sizeStyles[size],
+                className
+            )}
         >
             {isLoading ? (
                 <span className="flex items-center justify-center">

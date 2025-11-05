@@ -2,6 +2,7 @@ import type { PaginationConfig } from './Table/types';
 import { Button } from './Button';
 import chevronRight from '../../assets/chevron-right.svg';
 import chevronLeft from '../../assets/chevron-left.svg';
+import { cn } from '../../utils/cn';
 
 interface PaginationProps extends PaginationConfig {
     className?: string;
@@ -13,7 +14,7 @@ export function Pagination({
     onPageChange,
     isLoading = false,
     maxVisiblePages = 7,
-    className = '',
+    className,
 }: PaginationProps) {
     const getPageNumbers = (): (number | 'ellipsis')[] => {
         if (totalPages <= maxVisiblePages) {
@@ -68,7 +69,7 @@ export function Pagination({
 
     return (
         <nav
-            className={`flex items-center justify-end gap-0.5 sm:gap-1 ${className}`}
+            className={cn('flex items-center justify-end gap-0.5 sm:gap-1', className)}
             aria-label="Pagination"
         >
             <Button
@@ -106,7 +107,7 @@ export function Pagination({
                             disabled={isLoading}
                             variant={isActive ? 'secondary' : 'ghost'}
                             size="md"
-                            className={isActive ? 'border bg-white border-gray-300' : ''}
+                            className={cn(isActive && 'border bg-white border-gray-300')}
                             aria-label={`Page ${page}`}
                             aria-current={isActive ? 'page' : undefined}
                         >

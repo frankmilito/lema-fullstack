@@ -1,4 +1,5 @@
 import { useEffect, type ReactNode } from 'react';
+import { cn } from '../../utils/cn';
 
 export interface ModalProps {
     isOpen: boolean;
@@ -8,7 +9,7 @@ export interface ModalProps {
     className?: string;
 }
 
-export function Modal({ isOpen, onClose, title, children, className = '' }: ModalProps) {
+export function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
     // Handle ESC key to close modal
     useEffect(() => {
         if (!isOpen) return;
@@ -40,7 +41,10 @@ export function Modal({ isOpen, onClose, title, children, className = '' }: Moda
             aria-labelledby={title ? 'modal-title' : undefined}
         >
             <div
-                className={`bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto ${className} `}
+                className={cn(
+                    'bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto',
+                    className
+                )}
                 onClick={(e) => e.stopPropagation()}
             >
                 {title && (

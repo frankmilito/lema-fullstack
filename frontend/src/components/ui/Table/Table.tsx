@@ -1,5 +1,7 @@
 import type { TableProps, ColumnDefinition } from './types';
 import Spinner from '../Spinner';
+import { EmptyMessage } from '../EmptyMessage';
+import { cn } from '../../../utils/cn';
 
 function renderCell<T extends Record<string, unknown>>(
     column: ColumnDefinition<T>,
@@ -43,21 +45,9 @@ export function Table<T extends Record<string, unknown>>({
     onRowClick,
 }: TableProps<T>) {
 
-    const getAlignmentClass = (align?: 'left' | 'right' | 'center') => {
-        switch (align) {
-            case 'right':
-                return 'text-right';
-            case 'center':
-                return 'text-center';
-            case 'left':
-            default:
-                return 'text-left';
-        }
-    };
-
     if (isLoading) {
         return (
-            <div className={`bg-white rounded-lg shadow-sm border border-gray-200 ${className}`}>
+            <div className={cn('bg-white rounded-lg shadow-sm border border-gray-200', className)}>
                 <div className="overflow-x-auto">
                     <table className="w-full">
                         <div className="flex justify-center items-center h-full py-4 sm:py-6 md:py-8">
@@ -71,26 +61,26 @@ export function Table<T extends Record<string, unknown>>({
 
     if (error) {
         return (
-            <div className={`bg-white rounded-lg shadow-sm border border-red-200 ${className}`}>
-                <div className="px-4 py-6 sm:px-6 sm:py-8 text-center">
-                    <p className="text-red-600">Error loading data: {error.message}</p>
-                </div>
-            </div>
+            <EmptyMessage
+                message={`Error loading data: ${error.message}`}
+                variant="error"
+                className={className}
+            />
         );
     }
 
     if (!isLoading && data.length === 0) {
         return (
-            <div className={`bg-white rounded-lg shadow-sm border border-gray-200 ${className}`}>
-                <div className="px-4 py-6 sm:px-6 sm:py-8 text-center">
-                    <p className="text-gray-500">{emptyMessage}</p>
-                </div>
-            </div>
+            <EmptyMessage
+                message={emptyMessage}
+                variant="empty"
+                className={className}
+            />
         );
     }
 
     return (
-        <div className={`bg-white rounded-lg  border border-gray-200 overflow-hidden ${className}`}>
+        <div className={cn('bg-white rounded-lg border border-gray-200 overflow-hidden', className)}>
             <div className="overflow-x-auto">
                 <table className="w-full">
                     <thead className="border-b border-gray-200">
@@ -103,8 +93,10 @@ export function Table<T extends Record<string, unknown>>({
                                         width: typeof column.width === 'number' ? `${column.width}px` : column.width,
                                         maxWidth: typeof column.width === 'number' ? `${column.width}px` : column.width
                                     } : undefined}
-                                    className={` px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-3 text-xs sm:text-sm font-medium text-primary-200 tracking-wider ${getAlignmentClass(column.align)} ${column.headerClassName || ''}
-                  `}
+                                    className={cn(
+                                        'px-3 py-2 sm:px-4 sm:py-2.5 md:px-6 md:py-3 text-xs sm:text-sm font-medium text-primary-200 tracking-wider',
+                                        column.headerClassName
+                                    )}
                                 >
                                     {renderHeader(column)}
                                 </th>
@@ -114,7 +106,11 @@ export function Table<T extends Record<string, unknown>>({
                     <tbody className="bg-white divide-y divide-gray-200">
                         {data.map((row, rowIndex) => (
                             <tr
-                                key={getRowKey(row, rowIndex)} className={` hover:bg-gray-50 transition-colors ${onRowClick ? 'cursor-pointer' : ''}  `}
+                                key={getRowKey(row, rowIndex)}
+                                className={cn(
+                                    'hover:bg-gray-50 transition-colors',
+                                    onRowClick && 'cursor-pointer'
+                                )}
                                 onClick={() => onRowClick?.(row)}
                             >
                                 {columns.map((column) => (
@@ -125,7 +121,10 @@ export function Table<T extends Record<string, unknown>>({
                                             maxWidth: typeof column.width === 'number' ? `${column.width}px` : column.width,
                                             minWidth: typeof column.width === 'number' ? `${column.width}px` : column.width
                                         } : undefined}
-                                        className={` px-3 py-3 sm:px-4 sm:py-3.5 md:px-6 md:py-4 text-xs sm:text-sm text-primary-100 ${getAlignmentClass(column.align)} ${column.cellClassName || ''} `}
+                                        className={cn(
+                                            'px-3 py-3 sm:px-4 sm:py-3.5 md:px-6 md:py-4 text-xs sm:text-sm text-primary-100',
+                                            column.cellClassName
+                                        )}
                                     >
                                         {column.width ? (
                                             <div className="truncate">

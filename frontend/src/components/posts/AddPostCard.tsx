@@ -1,21 +1,21 @@
 import addCircleIcon from '../../assets/add_circle.svg';
+import { cn } from '../../utils/cn';
 
 export interface AddPostCardProps {
     onClick: () => void;
     className?: string;
 }
 
-export function AddPostCard({ onClick, className = '' }: AddPostCardProps) {
+export function AddPostCard({ onClick, className }: AddPostCardProps) {
     return (
         <div
-            className={`
-                bg-white rounded-lg border-2 border-dashed border-gray-300
-                aspect-square flex flex-col items-center justify-center
-                cursor-pointer transition-colors
-                hover:border-gray-400 
-                p-6 min-w-[280px]
-                ${className}
-            `}
+            className={cn(
+                'bg-white rounded-lg border-2 border-dashed border-gray-300',
+                'aspect-square flex flex-col items-center justify-center',
+                'cursor-pointer transition-colors hover:border-gray-400',
+                'p-6 min-w-[280px]',
+                className
+            )}
             onClick={onClick}
             role="button"
             tabIndex={0}

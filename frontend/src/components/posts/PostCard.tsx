@@ -1,4 +1,5 @@
 import deleteIcon from '../../assets/delete-icon.svg';
+import { cn } from '../../utils/cn';
 
 export interface PostCardProps {
     title: string;
@@ -8,13 +9,14 @@ export interface PostCardProps {
     className?: string;
 }
 
-export function PostCard({ title, content, onDelete, onClick, className = '' }: PostCardProps) {
+export function PostCard({ title, content, onDelete, onClick, className }: PostCardProps) {
     return (
         <div
-            className={`
-                bg-white rounded-lg border border-gray-200 shadow-sm p-6 flex flex-col min-w-[280px] ${onClick ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}
-                ${className}
-            `}
+            className={cn(
+                'bg-white rounded-lg border border-gray-200 shadow-sm p-6 flex flex-col min-w-[280px]',
+                onClick && 'cursor-pointer hover:shadow-md transition-shadow',
+                className
+            )}
             onClick={onClick}
             onKeyDown={onClick ? (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
