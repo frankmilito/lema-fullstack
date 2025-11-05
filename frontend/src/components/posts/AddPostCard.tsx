@@ -32,7 +32,7 @@ export function AddPostCard({ onClick, className = '' }: AddPostCardProps) {
                 <img src={addCircleIcon} alt="Add circle" className="w-10 h-10" />
             </div>
 
-            <span className="text-sm font-medium text-primary-100">New Post</span>
+            <span className="text-xs sm:text-sm font-medium text-primary-100">New Post</span>
         </div>
     );
 }

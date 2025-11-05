@@ -12,14 +12,10 @@ export function PostCard({ title, content, onDelete, onClick, className = '' }: 
     return (
         <div
             className={`
-                bg-white rounded-lg border border-gray-200 shadow-sm
-                p-6 flex flex-col min-w-[280px]
-                ${onClick ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}
+                bg-white rounded-lg border border-gray-200 shadow-sm p-6 flex flex-col min-w-[280px] ${onClick ? 'cursor-pointer hover:shadow-md transition-shadow' : ''}
                 ${className}
             `}
             onClick={onClick}
-            role={onClick ? 'button' : undefined}
-            tabIndex={onClick ? 0 : undefined}
             onKeyDown={onClick ? (e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -27,28 +23,28 @@ export function PostCard({ title, content, onDelete, onClick, className = '' }: 
                 }
             } : undefined}
         >
-            <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-gray-900 pr-2 flex-1">
+            <div className="w-full mb-4">
+                {onDelete && (
+                    <div className="flex justify-end items-end">
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onDelete();
+                            }}
+                            className="p-1 hover:bg-red-50 rounded transition-colors"
+                        >
+                            <img src={deleteIcon} alt="Delete" className="w-3 h-3" />
+                        </button>
+                    </div>
+                )}
+                <h3 className="text-base sm:text-lg font-bold text-primary-100 pr-2 flex-1">
                     {title}
                 </h3>
-                {onDelete && (
-                    <button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            onDelete();
-                        }}
-                        className="shrink-0 p-1 hover:bg-red-50 rounded transition-colors"
-                        aria-label="Delete post"
-                        type="button"
-                    >
-                        <img src={deleteIcon} alt="Delete" className="w-3 h-3" />
-                    </button>
-                )}
             </div>
 
-            <p className="text-sm text-gray-700 overflow-hidden text-ellipsis" style={{
+            <p className="text-xs sm:text-sm text-gray-700 overflow-hidden text-ellipsis" style={{
                 display: '-webkit-box',
-                WebkitLineClamp: 7,
+                WebkitLineClamp: 8,
                 WebkitBoxOrient: 'vertical',
             }}>
                 {content}

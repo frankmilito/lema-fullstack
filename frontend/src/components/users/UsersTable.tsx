@@ -15,13 +15,13 @@ interface UsersTableProps {
 }
 
 function formatAddress(user: User): string {
-    const parts: string[] = [];
-    if (user.street) parts.push(user.street);
-    if (user.city) parts.push(user.city);
-    if (user.state) parts.push(user.state);
-    if (user.zipcode) parts.push(user.zipcode);
+    const addressParts: string[] = [];
+    if (user.street) addressParts.push(user.street);
+    if (user.city) addressParts.push(user.city);
+    if (user.state) addressParts.push(user.state);
+    if (user.zipcode) addressParts.push(user.zipcode);
 
-    return parts.length > 0 ? parts.join(', ') : '—';
+    return addressParts.length > 0 ? addressParts.join(', ') : '—';
 }
 
 export function UsersTable({
@@ -40,7 +40,6 @@ export function UsersTable({
             id: 'name',
             header: 'Full name',
             accessor: 'name',
-            headerClassName: 'font-semibold',
         },
         {
             id: 'email',
@@ -66,6 +65,7 @@ export function UsersTable({
                 emptyMessage="No users found"
                 getRowKey={(user) => user.id}
                 onRowClick={onRowClick}
+
             />
 
             {totalPages > 1 && (
@@ -76,6 +76,7 @@ export function UsersTable({
                     pageSize={pageSize}
                     onPageChange={onPageChange}
                     isLoading={isLoading}
+                    maxVisiblePages={5}
                 />
             )}
         </div>

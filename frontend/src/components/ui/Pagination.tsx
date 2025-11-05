@@ -21,20 +21,24 @@ export function Pagination({
         }
 
         const pages: (number | 'ellipsis')[] = [];
-        const halfVisible = Math.floor(maxVisiblePages / 2);
+
+        const middlePagesCount = maxVisiblePages - 2;
+        const halfMiddle = Math.floor(middlePagesCount / 2);
+
+        let start = Math.max(2, currentPage - halfMiddle);
+        let end = Math.min(totalPages - 1, currentPage + halfMiddle);
+
+        if (currentPage <= halfMiddle + 1) {
+            start = 2;
+            end = Math.min(2 + middlePagesCount - 1, totalPages - 1);
+        }
+
+        if (currentPage >= totalPages - halfMiddle) {
+            end = totalPages - 1;
+            start = Math.max(2, totalPages - middlePagesCount);
+        }
 
         pages.push(1);
-
-        let start = Math.max(2, currentPage - halfVisible);
-        let end = Math.min(totalPages - 1, currentPage + halfVisible);
-
-        if (currentPage <= halfVisible + 1) {
-            end = Math.min(maxVisiblePages - 1, totalPages - 1);
-        }
-
-        if (currentPage >= totalPages - halfVisible) {
-            start = Math.max(2, totalPages - maxVisiblePages + 2);
-        }
 
         if (start > 2) {
             pages.push('ellipsis');
@@ -48,9 +52,7 @@ export function Pagination({
             pages.push('ellipsis');
         }
 
-        if (totalPages > 1) {
-            pages.push(totalPages);
-        }
+        pages.push(totalPages);
 
         return pages;
     };
@@ -66,7 +68,7 @@ export function Pagination({
 
     return (
         <nav
-            className={`flex items-center justify-end gap-1 ${className}`}
+            className={`flex items-center justify-end gap-0.5 sm:gap-1 ${className}`}
             aria-label="Pagination"
         >
             <Button
@@ -76,9 +78,10 @@ export function Pagination({
                 size="md"
                 aria-label="Previous page"
                 aria-disabled={currentPage === 1}
-                className="flex items-center gap-1"
+                className="flex items-center gap-0.5 sm:gap-1"
             >
-                <img src={chevronLeft} alt="Previous page" /> Previous
+                <img src={chevronLeft} alt="Previous page" />
+                <span className="hidden md:inline">Previous</span>
             </Button>
 
             <div className="flex items-center gap-1">
@@ -87,7 +90,7 @@ export function Pagination({
                         return (
                             <span
                                 key={`ellipsis-${index}`}
-                                className="px-3 py-2 text-sm font-medium text-gray-500"
+                                className="px-2 py-1.5 sm:px-3 sm:py-2 text-xs sm:text-sm font-medium text-primary-200"
                             >
                                 ...
                             </span>
@@ -103,7 +106,7 @@ export function Pagination({
                             disabled={isLoading}
                             variant={isActive ? 'secondary' : 'ghost'}
                             size="md"
-                            className={isActive ? 'border border-gray-300' : ''}
+                            className={isActive ? 'border bg-white border-gray-300' : ''}
                             aria-label={`Page ${page}`}
                             aria-current={isActive ? 'page' : undefined}
                         >
@@ -120,9 +123,10 @@ export function Pagination({
                 size="md"
                 aria-label="Next page"
                 aria-disabled={currentPage === totalPages}
-                className="flex items-center gap-1"
+                className="flex items-center gap-0.5 sm:gap-1"
             >
-                Next  <img src={chevronRight} alt="Next page" />
+                <span className="hidden md:inline">Next</span>
+                <img src={chevronRight} alt="Next page" />
             </Button>
         </nav>
     );

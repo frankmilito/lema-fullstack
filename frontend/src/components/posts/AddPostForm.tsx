@@ -44,7 +44,7 @@ export function AddPostForm({
     return (
         <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-6">
             <div>
-                <label htmlFor="post-title" className="block text-sm font-medium text-primary-100 mb-2">
+                <label htmlFor="post-title" className="block text-sm sm:text-md font-medium text-primary-100 mb-2">
                     Post title
                 </label>
                 <input
@@ -52,30 +52,30 @@ export function AddPostForm({
                     type="text"
                     {...register('title')}
                     placeholder="Give your post a title"
-                    className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.title ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                    className={`w-full px-4 py-2 border placeholder:text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.title ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
                         }`}
                     disabled={isFormLoading}
                 />
                 {errors.title && (
-                    <p className="mt-1 text-sm text-red-500">{errors.title.message}</p>
+                    <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.title.message}</p>
                 )}
             </div>
 
             <div>
-                <label htmlFor="post-body" className="block text-sm font-medium text-primary-100 mb-2">
+                <label htmlFor="post-body" className="block text-sm sm:text-md font-medium text-primary-100 mb-2">
                     Post content
                 </label>
                 <textarea
                     id="post-body"
                     {...register('body')}
                     placeholder="Write something mind-blowing"
-                    rows={6}
-                    className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y ${errors.body ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
+                    rows={5}
+                    className={`w-full px-4 placeholder:text-sm py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y ${errors.body ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
                         }`}
                     disabled={isFormLoading}
                 />
                 {errors.body && (
-                    <p className="mt-1 text-sm text-red-500">{errors.body.message}</p>
+                    <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.body.message}</p>
                 )}
             </div>
 

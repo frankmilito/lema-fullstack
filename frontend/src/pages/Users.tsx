@@ -29,7 +29,7 @@ const Users = () => {
     return (
         <PageLayout>
             <div className="space-y-6">
-                <h1 className="text-3xl font-bold text-gray-900">Users</h1>
+                <h1 className="text-2xl sm:text-3xl font-medium text-primary-100">Users</h1>
                 <UsersTable
                     users={users}
                     isLoading={isLoading}
