@@ -1,8 +1,7 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import { getUsers, getUsersCount } from "../api/users";
+import { getUserPosts, getUsers, getUsersCount } from "../services/users";
 
-export const useUsers = (pageNumber: number, pageSize = 4) => {
-    // Backend uses 0-indexed page numbers, so convert from 1-indexed
+export const useGetUsers = (pageNumber: number, pageSize = 4) => {
     const backendPageNumber = pageNumber - 1;
 
     const usersQuery = useQuery({
@@ -26,4 +25,14 @@ export const useUsers = (pageNumber: number, pageSize = 4) => {
         totalPages,
         isCountLoading: countQuery.isLoading,
     };
+};
+
+export const useGetUserPosts = (userId: string) => {
+    const query = useQuery({
+        queryKey: ["posts", userId],
+        queryFn: () => getUserPosts(userId),
+        staleTime: 0,
+    });
+
+    return query;
 };

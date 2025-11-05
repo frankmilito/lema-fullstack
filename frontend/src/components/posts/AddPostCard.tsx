@@ -12,8 +12,8 @@ export function AddPostCard({ onClick, className = '' }: AddPostCardProps) {
                 bg-white rounded-lg border-2 border-dashed border-gray-300
                 aspect-square flex flex-col items-center justify-center
                 cursor-pointer transition-colors
-                hover:border-gray-400
-                p-6
+                hover:border-gray-400 
+                p-6 min-w-[280px]
                 ${className}
             `}
             onClick={onClick}
@@ -32,8 +32,7 @@ export function AddPostCard({ onClick, className = '' }: AddPostCardProps) {
                 <img src={addCircleIcon} alt="Add circle" className="w-10 h-10" />
             </div>
 
-            {/* Text */}
-            <span className="text-sm font-medium text-gray-900">New Post</span>
+            <span className="text-sm font-medium text-primary-100">New Post</span>
         </div>
     );
 }

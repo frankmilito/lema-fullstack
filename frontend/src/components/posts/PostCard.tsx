@@ -12,11 +12,10 @@ export function PostCard({ title, content, onDelete, className = '' }: PostCardP
         <div
             className={`
                 bg-white rounded-lg border border-gray-200 shadow-sm
-                p-6 flex flex-col
+                p-6 flex flex-col min-w-[280px]
                 ${className}
             `}
         >
-            {/* Header with title and delete icon */}
             <div className="flex items-start justify-between mb-4">
                 <h3 className="text-lg font-bold text-gray-900 pr-2 flex-1">
                     {title}
@@ -33,10 +32,9 @@ export function PostCard({ title, content, onDelete, className = '' }: PostCardP
                 )}
             </div>
 
-            {/* Content with truncation */}
             <p className="text-sm text-gray-700 overflow-hidden text-ellipsis" style={{
                 display: '-webkit-box',
-                WebkitLineClamp: 3,
+                WebkitLineClamp: 7,
                 WebkitBoxOrient: 'vertical',
             }}>
                 {content}

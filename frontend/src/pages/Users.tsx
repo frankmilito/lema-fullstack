@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useUsers } from '../hooks/useUsers';
+import { useGetUsers } from '../hooks/useUsers';
 import { UsersTable } from '../components/users/UsersTable';
 import { PageLayout } from '../components/layout/PageLayout';
 import { useNavigate } from 'react-router-dom';
@@ -15,14 +15,14 @@ const Users = () => {
         error,
         totalPages,
         totalCount
-    } = useUsers(page, pageSize);
+    } = useGetUsers(page, pageSize);
 
     const handlePageChange = (newPage: number) => {
         setPage(newPage);
     };
 
     const handleRowClick = (user: User) => {
-        navigate(`/users/posts/${user.id}`);
+        navigate(`/users/posts/${user.user_id}`, { state: { name: user.name } });
     };
 
     return (
