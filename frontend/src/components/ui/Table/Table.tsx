@@ -48,12 +48,8 @@ export function Table<T extends Record<string, unknown>>({
     if (isLoading) {
         return (
             <div className={cn('bg-white rounded-lg shadow-sm border border-gray-200', className)}>
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <div className="flex justify-center items-center h-full py-4 sm:py-6 md:py-8">
-                            <Spinner />
-                        </div>
-                    </table>
+                <div className="flex justify-center items-center h-full py-4 sm:py-6 md:py-8">
+                    <Spinner />
                 </div>
             </div>
         );

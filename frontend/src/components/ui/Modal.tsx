@@ -10,7 +10,6 @@ export interface ModalProps {
 }
 
 export function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
-    // Handle ESC key to close modal
     useEffect(() => {
         if (!isOpen) return;
 
@@ -21,7 +20,6 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
         };
 
         document.addEventListener('keydown', handleEscape);
-        // Prevent body scroll when modal is open
         document.body.style.overflow = 'hidden';
 
         return () => {
