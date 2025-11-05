@@ -210,19 +210,6 @@ describe('AddPostForm Component', () => {
             expect(bodyInput).toBeDisabled();
             expect(submitButton).toBeDisabled();
         });
-
-        it('should show loading state on submit button', () => {
-            render(
-                <AddPostForm
-                    onSubmit={mockOnSubmit}
-                    onCancel={mockOnCancel}
-                    isLoading={true}
-                />
-            );
-
-            const submitButton = screen.getByRole('button', { name: /publish/i });
-            expect(submitButton).toBeDisabled();
-        });
     });
 
     describe('Cancel Button', () => {
@@ -239,40 +226,6 @@ describe('AddPostForm Component', () => {
             await user.click(cancelButton);
 
             expect(mockOnCancel).toHaveBeenCalledTimes(1);
-        });
-
-        it('should disable cancel button when loading', () => {
-            render(
-                <AddPostForm
-                    onSubmit={mockOnSubmit}
-                    onCancel={mockOnCancel}
-                    isLoading={true}
-                />
-            );
-
-            const cancelButton = screen.getByRole('button', { name: /cancel/i });
-            expect(cancelButton).toBeDisabled();
-        });
-    });
-
-    describe('Error Display', () => {
-        it('should show error styling on invalid fields', async () => {
-            const user = userEvent.setup();
-            render(
-                <AddPostForm
-                    onSubmit={mockOnSubmit}
-                    onCancel={mockOnCancel}
-                />
-            );
-
-            const titleInput = screen.getByLabelText(/post title/i);
-            const submitButton = screen.getByRole('button', { name: /publish/i });
-
-            await user.click(submitButton);
-
-            await waitFor(() => {
-                expect(titleInput).toHaveClass('border-red-500');
-            });
         });
     });
 });

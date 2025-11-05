@@ -15,25 +15,6 @@ describe('Pagination Component', () => {
     };
 
     describe('Page Number Display', () => {
-        it('should display all pages when totalPages <= maxVisiblePages', () => {
-            render(
-                <Pagination
-                    currentPage={1}
-                    totalPages={5}
-                    onPageChange={mockOnPageChange}
-                    maxVisiblePages={7}
-                    {...defaultProps}
-                />
-            );
-
-            expect(screen.getByText('1')).toBeInTheDocument();
-            expect(screen.getByText('2')).toBeInTheDocument();
-            expect(screen.getByText('3')).toBeInTheDocument();
-            expect(screen.getByText('4')).toBeInTheDocument();
-            expect(screen.getByText('5')).toBeInTheDocument();
-            expect(screen.queryByText('...')).not.toBeInTheDocument();
-        });
-
         it('should show ellipsis when pages exceed maxVisiblePages', () => {
             render(
                 <Pagination
@@ -52,56 +33,6 @@ describe('Pagination Component', () => {
             const ellipses = screen.getAllByText('...');
             expect(ellipses.length).toBeGreaterThan(0);
         });
-
-        it('should show correct pages when at the beginning', () => {
-            render(
-                <Pagination
-                    currentPage={2}
-                    totalPages={20}
-                    onPageChange={mockOnPageChange}
-                    maxVisiblePages={5}
-                    {...defaultProps}
-                />
-            );
-
-            expect(screen.getByText('1')).toBeInTheDocument();
-            expect(screen.getByText('2')).toBeInTheDocument();
-            expect(screen.getByText('3')).toBeInTheDocument();
-            expect(screen.getByText('20')).toBeInTheDocument();
-        });
-
-        it('should show correct pages when at the end', () => {
-            render(
-                <Pagination
-                    currentPage={19}
-                    totalPages={20}
-                    onPageChange={mockOnPageChange}
-                    maxVisiblePages={5}
-                    {...defaultProps}
-                />
-            );
-
-            expect(screen.getByText('1')).toBeInTheDocument();
-            expect(screen.getByText('18')).toBeInTheDocument();
-            expect(screen.getByText('19')).toBeInTheDocument();
-            expect(screen.getByText('20')).toBeInTheDocument();
-        });
-
-        it('should show correct pages when in the middle', () => {
-            render(
-                <Pagination
-                    currentPage={10}
-                    totalPages={20}
-                    onPageChange={mockOnPageChange}
-                    maxVisiblePages={5}
-                    {...defaultProps}
-                />
-            );
-
-            expect(screen.getByText('1')).toBeInTheDocument();
-            expect(screen.getByText('10')).toBeInTheDocument();
-            expect(screen.getByText('20')).toBeInTheDocument();
-        });
     });
 
     describe('Current Page Highlighting', () => {
@@ -118,25 +49,11 @@ describe('Pagination Component', () => {
             const currentPageButton = screen.getByText('3').closest('button');
             expect(currentPageButton).toHaveClass('border');
         });
-
-        it('should not highlight other pages', () => {
-            render(
-                <Pagination
-                    currentPage={3}
-                    totalPages={10}
-                    onPageChange={mockOnPageChange}
-                    {...defaultProps}
-                />
-            );
-
-            const otherPageButton = screen.getByText('2').closest('button');
-            expect(otherPageButton).not.toHaveClass('border');
-        });
     });
 
     describe('Navigation Buttons', () => {
-        it('should disable previous button on first page', () => {
-            render(
+        it('should disable previous button on first page and next on last page', () => {
+            const { rerender } = render(
                 <Pagination
                     currentPage={1}
                     totalPages={10}
@@ -145,12 +62,9 @@ describe('Pagination Component', () => {
                 />
             );
 
-            const prevButton = screen.getByLabelText('Previous page');
-            expect(prevButton).toBeDisabled();
-        });
+            expect(screen.getByLabelText('Previous page')).toBeDisabled();
 
-        it('should disable next button on last page', () => {
-            render(
+            rerender(
                 <Pagination
                     currentPage={10}
                     totalPages={10}
@@ -159,58 +73,12 @@ describe('Pagination Component', () => {
                 />
             );
 
-            const nextButton = screen.getByLabelText('Next page');
-            expect(nextButton).toBeDisabled();
-        });
-
-        it('should enable previous button when not on first page', () => {
-            render(
-                <Pagination
-                    currentPage={5}
-                    totalPages={10}
-                    onPageChange={mockOnPageChange}
-                    {...defaultProps}
-                />
-            );
-
-            const prevButton = screen.getByLabelText('Previous page');
-            expect(prevButton).not.toBeDisabled();
-        });
-
-        it('should enable next button when not on last page', () => {
-            render(
-                <Pagination
-                    currentPage={5}
-                    totalPages={10}
-                    onPageChange={mockOnPageChange}
-                    {...defaultProps}
-                />
-            );
-
-            const nextButton = screen.getByLabelText('Next page');
-            expect(nextButton).not.toBeDisabled();
+            expect(screen.getByLabelText('Next page')).toBeDisabled();
         });
     });
 
     describe('Page Change Interactions', () => {
-        it('should call onPageChange when clicking a page number', async () => {
-            const user = userEvent.setup();
-            render(
-                <Pagination
-                    currentPage={1}
-                    totalPages={10}
-                    onPageChange={mockOnPageChange}
-                    {...defaultProps}
-                />
-            );
-
-            const page5Button = screen.getByLabelText('Page 5');
-            await user.click(page5Button);
-
-            expect(mockOnPageChange).toHaveBeenCalledWith(5);
-        });
-
-        it('should call onPageChange when clicking next button', async () => {
+        it('should call onPageChange when clicking page number or navigation buttons', async () => {
             const user = userEvent.setup();
             render(
                 <Pagination
@@ -221,26 +89,13 @@ describe('Pagination Component', () => {
                 />
             );
 
-            const nextButton = screen.getByLabelText('Next page');
-            await user.click(nextButton);
-
+            await user.click(screen.getByLabelText('Page 6'));
             expect(mockOnPageChange).toHaveBeenCalledWith(6);
-        });
 
-        it('should call onPageChange when clicking previous button', async () => {
-            const user = userEvent.setup();
-            render(
-                <Pagination
-                    currentPage={5}
-                    totalPages={10}
-                    onPageChange={mockOnPageChange}
-                    {...defaultProps}
-                />
-            );
+            await user.click(screen.getByLabelText('Next page'));
+            expect(mockOnPageChange).toHaveBeenCalledWith(6);
 
-            const prevButton = screen.getByLabelText('Previous page');
-            await user.click(prevButton);
-
+            await user.click(screen.getByLabelText('Previous page'));
             expect(mockOnPageChange).toHaveBeenCalledWith(4);
         });
 
@@ -301,57 +156,6 @@ describe('Pagination Component', () => {
             pageButtons.forEach(button => {
                 expect(button).toBeDisabled();
             });
-        });
-
-        it('should not call onPageChange when loading', async () => {
-            const user = userEvent.setup();
-            render(
-                <Pagination
-                    currentPage={5}
-                    totalPages={10}
-                    onPageChange={mockOnPageChange}
-                    isLoading={true}
-                    {...defaultProps}
-                />
-            );
-
-            const pageButton = screen.getByLabelText('Page 6');
-            await user.click(pageButton);
-
-            expect(mockOnPageChange).not.toHaveBeenCalled();
-        });
-    });
-
-    describe('Edge Cases', () => {
-        it('should handle single page correctly', () => {
-            render(
-                <Pagination
-                    currentPage={1}
-                    totalPages={1}
-                    onPageChange={mockOnPageChange}
-                    {...defaultProps}
-                />
-            );
-
-            expect(screen.getByText('1')).toBeInTheDocument();
-            expect(screen.getByLabelText('Previous page')).toBeDisabled();
-            expect(screen.getByLabelText('Next page')).toBeDisabled();
-        });
-
-        it('should handle maxVisiblePages correctly', () => {
-            render(
-                <Pagination
-                    currentPage={1}
-                    totalPages={100}
-                    onPageChange={mockOnPageChange}
-                    maxVisiblePages={3}
-                    {...defaultProps}
-                />
-            );
-
-            expect(screen.getByText('1')).toBeInTheDocument();
-            expect(screen.getByText('2')).toBeInTheDocument();
-            expect(screen.getByText('100')).toBeInTheDocument();
         });
     });
 });

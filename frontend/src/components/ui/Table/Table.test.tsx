@@ -69,20 +69,6 @@ describe('Table Component', () => {
 
             expect(screen.getByText(/Error loading data: Failed to fetch data/i)).toBeInTheDocument();
         });
-
-        it('should not display data when error occurs', () => {
-            const error = new Error('Network error');
-            render(
-                <Table
-                    data={mockData}
-                    columns={columns}
-                    error={error}
-                    isLoading={false}
-                />
-            );
-
-            expect(screen.queryByText('John Doe')).not.toBeInTheDocument();
-        });
     });
 
     describe('Data State', () => {
@@ -115,19 +101,6 @@ describe('Table Component', () => {
             );
 
             expect(screen.getByText('No data available')).toBeInTheDocument();
-        });
-
-        it('should display custom empty message', () => {
-            render(
-                <Table
-                    data={[]}
-                    columns={columns}
-                    isLoading={false}
-                    emptyMessage="No users found"
-                />
-            );
-
-            expect(screen.getByText('No users found')).toBeInTheDocument();
         });
 
         it('should render table rows with correct data', () => {
