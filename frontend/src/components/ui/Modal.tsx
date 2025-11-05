@@ -34,7 +34,11 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/50"
+            className={cn(
+                'fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4',
+                'bg-black/50 backdrop-blur-sm',
+                'transition-opacity duration-300 ease-out opacity-100'
+            )}
             onClick={onClose}
             role="dialog"
             aria-modal="true"
@@ -43,6 +47,8 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
             <div
                 className={cn(
                     'bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto',
+                    'transition-all duration-300 ease-out',
+                    'animate-[modalEnter_0.3s_ease-out]',
                     className
                 )}
                 onClick={(e) => e.stopPropagation()}

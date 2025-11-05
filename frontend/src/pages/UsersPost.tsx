@@ -25,6 +25,7 @@ const UserPosts = () => {
         setEditingPost(null);
         setIsOpen(!isOpen);
     };
+
     const handleClose = () => {
         setIsOpen(false);
         setEditingPost(null);
@@ -69,10 +70,10 @@ const UserPosts = () => {
         setPostToDelete(null);
     };
 
-
     if (isLoading) {
         return <Spinner className="min-h-screen" />
     }
+
     return (
         <div className="flex min-h-screen justify-center items-center">
             <UserPostsContent
@@ -89,7 +90,6 @@ const UserPosts = () => {
                 isLoading={isCreating || isUpdating}
                 editingPost={editingPost}
             />
-
             <DeleteConfirmationModal
                 isOpen={isDeleteModalOpen}
                 onClose={handleCancelDelete}

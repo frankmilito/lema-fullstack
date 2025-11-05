@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { PostCard } from "./PostCard";
 import { AddPostCard } from "./AddPostCard";
 import type { Post } from "../../types/post";
@@ -19,13 +19,18 @@ export function UserPostsContent({
     onEditPost,
     onDeletePost,
 }: UserPostsContentProps) {
+    const navigate = useNavigate();
+
     return (
         <div className="max-w-5xl xs:min-w-full md:min-w-3xl mx-auto p-6 min-h-[400px]">
             <div className="flex items-center space-x-2 text-gray-500 mb-6">
                 <div className="flex items-center gap-4">
-                    <Link to="/" className="text-xs sm:text-sm flex items-center gap-4">
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="text-xs sm:text-sm flex items-center gap-4 hover:text-gray-700 transition-colors"
+                    >
                         Users List <img src={chevronRightIcon} />
-                    </Link>
+                    </button>
                     <span className="text-primary-200 text-xs sm:text-sm">{name}</span>
                 </div>
             </div>

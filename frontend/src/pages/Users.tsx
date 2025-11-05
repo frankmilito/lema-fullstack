@@ -1,14 +1,19 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { useGetUsers } from '../hooks/useUsers';
 import { UsersTable } from '../components/users/UsersTable';
 import { PageLayout } from '../components/layout/PageLayout';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { User } from '../types/users';
 
 const Users = () => {
     const navigate = useNavigate();
-    const [page, setPage] = useState(1);
+    const [searchParams, setSearchParams] = useSearchParams();
     const pageSize = 4;
+
+    // Get page from URL params, default to 1
+    const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
+    const initialPage = pageFromUrl > 0 ? pageFromUrl : 1;
+
     const {
         data: users = [],
         isLoading,
@@ -16,14 +21,27 @@ const Users = () => {
         error,
         totalPages,
         totalCount
-    } = useGetUsers(page, pageSize);
+    } = useGetUsers(initialPage, pageSize);
+
+    // Update URL if page exceeds total pages or is invalid
+    useEffect(() => {
+        if (!isLoading && totalPages > 0) {
+            if (initialPage > totalPages) {
+                setSearchParams({ page: '1' }, { replace: true });
+            } else if (initialPage !== pageFromUrl && pageFromUrl > 0) {
+                setSearchParams({ page: initialPage.toString() }, { replace: true });
+            }
+        }
+    }, [isLoading, totalPages, initialPage, pageFromUrl, setSearchParams]);
 
     const handlePageChange = (newPage: number) => {
-        setPage(newPage);
+        setSearchParams({ page: newPage.toString() }, { replace: true });
     };
 
     const handleRowClick = (user: User) => {
-        navigate(`/users/posts/${user.user_id}`, { state: { name: user.name } });
+        navigate(`/users/posts/${user.user_id}`, {
+            state: { name: user.name }
+        });
     };
 
     return (
@@ -34,7 +52,7 @@ const Users = () => {
                     users={users}
                     isLoading={isLoading}
                     error={isError ? (error as Error) : null}
-                    currentPage={page}
+                    currentPage={initialPage}
                     totalPages={totalPages}
                     totalItems={totalCount}
                     pageSize={pageSize}
