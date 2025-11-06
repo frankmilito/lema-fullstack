@@ -34,6 +34,11 @@ The server should now be accessible at `http://localhost:3001`.
 
 The client should now be accessible at `http://localhost:5173`.
 
+## Live Application
+
+- **Frontend**: [https://lema-fullstack.vercel.app/](https://lema-fullstack.vercel.app/)
+- **GitHub Repository**: [https://github.com/frankmilito/lema-fullstack](https://github.com/frankmilito/lema-fullstack)
+
 ## Project Structure
 
 ```
@@ -163,7 +168,6 @@ The server exposes several partial RESTful API endpoints:
 **Post Endpoints:**
 - `GET /posts` - Returns posts filtered by a specific user ID, using the userId query parameter (e.g., `/posts?userId={userId}`).
 - `POST /posts` - Creates a new post for a user. Requires `title`, `body`, and `userId` in the request body.
-- `PUT /posts/:postId` - Updates an existing post by ID. Requires `title` and `body` in the request body.
 - `DELETE /posts/:postId` - Deletes a post by its ID.
 
 ### Backend Requirements
