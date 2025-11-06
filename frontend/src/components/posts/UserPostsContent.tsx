@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { PostCard } from "./PostCard";
 import { AddPostCard } from "./AddPostCard";
 import type { Post } from "../../types/post";
@@ -23,10 +23,12 @@ export function UserPostsContent({
     isDeleting = false,
 }: UserPostsContentProps) {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
 
     const handleBackClick = useCallback(() => {
-        navigate(-1);
-    }, [navigate]);
+        const page = searchParams.get('page') || '1';
+        navigate(`/users?page=${page}`);
+    }, [navigate, searchParams]);
 
     return (
         <div className="max-w-6xl xs:min-w-full md:min-w-3xl mx-auto p-6 min-h-[700px]">

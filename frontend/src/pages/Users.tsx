@@ -36,9 +36,7 @@ const Users = () => {
     };
 
     const handleRowClick = (user: User) => {
-        navigate(`/users/posts/${user.user_id}`, {
-            state: { name: user.name }
-        });
+        navigate(`/users/posts/${user.user_id}?user=${encodeURIComponent(user.name)}&page=${initialPage}`);
     };
 
     return (

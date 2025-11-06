@@ -1,4 +1,4 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import Spinner from "../components/ui/Spinner";
 import { AddPostFormModal } from "../components/posts/AddPostFormModal";
@@ -12,12 +12,12 @@ import { validateUserId } from "../utils/validation";
 
 const UserPosts = () => {
     const { id } = useParams();
+    const [searchParams] = useSearchParams();
     const [isOpen, setIsOpen] = useState(false);
     const [editingPost, setEditingPost] = useState<Post | null>(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [postToDelete, setPostToDelete] = useState<Post | null>(null);
-    const location = useLocation();
-    const { name } = location.state || {};
+    const name = searchParams.get('user') || '';
     const userId = validateUserId(id) || '';
     const { mutateAsync: deletePost, isPending: isDeleting } = useDeletePost(userId);
     const { isLoading, data: posts, error } = useGetUserPosts(userId);
