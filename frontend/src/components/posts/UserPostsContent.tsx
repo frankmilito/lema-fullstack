@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { PostCard } from "./PostCard";
 import { AddPostCard } from "./AddPostCard";
@@ -28,8 +28,6 @@ export function UserPostsContent({
         navigate(-1);
     }, [navigate]);
 
-    const memoizedPosts = useMemo(() => posts, [posts]);
-
     return (
         <div className="max-w-6xl xs:min-w-full md:min-w-3xl mx-auto p-6 min-h-[700px]">
             <div className="flex items-center space-x-2 text-gray-500 mb-6">
@@ -44,18 +42,20 @@ export function UserPostsContent({
                     <span className="text-primary-200 text-xs sm:text-sm">{name}</span>
                 </div>
             </div>
-            <p className="text-primary-100 textxl sm:text-2xl mb-6">{name}</p>
+
             <div className="mb-6">
-                <h1 className="text-xl sm:text-2xl font-bold text-primary-200"></h1>
+                <h1 className="text-xl sm:text-2xl font-bold text-primary-200 mb-2">
+                    {name || 'User Posts'}
+                </h1>
                 <p className="text-sm sm:text-base text-primary-200">
-                    {name} &bull; {posts?.length} Posts
+                    {posts?.length || 0} {posts?.length === 1 ? 'Post' : 'Posts'}
                 </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 h-full items-stretch">
                 <AddPostCard onClick={onAddPost} />
 
-                {memoizedPosts.map((post: Post) => (
+                {posts.map((post: Post) => (
                     <PostCard
                         key={post.id}
                         title={post.title}

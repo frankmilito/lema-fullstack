@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import deleteIcon from '../../assets/delete-icon.svg';
 import { cn } from '../../utils/cn';
 
@@ -69,6 +68,4 @@ export function PostCard({ title, content, onDelete, onClick, className, isDelet
         </div>
     );
 }
-
-export const MemoizedPostCard = memo(PostCard);
 

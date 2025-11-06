@@ -28,7 +28,7 @@ export const useGetUsers = (pageNumber: number, pageSize = 4) => {
     };
 };
 
-export const useGetUserPosts = (userId: string) => {
+export const useGetUserPosts = (userId: string | number) => {
     const query = useQuery({
         queryKey: postKeys.list(userId),
         queryFn: () => getUserPosts(userId),

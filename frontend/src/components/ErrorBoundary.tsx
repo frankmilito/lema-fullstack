@@ -51,7 +51,7 @@ export class ErrorBoundary extends Component<Props, State> {
                         >
                             Reload Page
                         </Button>
-                        {import.meta.env.NODE_ENV === 'development' && this.state.error && (
+                        {import.meta.env.MODE === 'development' && this.state.error && (
                             <details className="mt-6 text-left">
                                 <summary className="cursor-pointer text-sm text-gray-500 mb-2">
                                     Error Details

@@ -34,7 +34,7 @@ export const getUsers = (
         }
         results.forEach((user) => {
           if (user.street && user.city && user.state && user.zipcode) {
-            user.address = `${user.street}, ${user.city}, ${user.state}, ${user.zipcode}`;
+            user.address = `${user.street}, ${user.state}, ${user.city}, ${user.zipcode}`;
           } else {
             user.address = "No address provided";
           }

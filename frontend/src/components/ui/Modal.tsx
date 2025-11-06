@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { cn } from '../../utils/cn';
 
 export interface ModalProps {
@@ -7,11 +7,25 @@ export interface ModalProps {
     title?: string;
     children: ReactNode;
     className?: string;
+    closeOnBackdropClick?: boolean;
 }
 
-export function Modal({ isOpen, onClose, title, children, className }: ModalProps) {
+export function Modal({
+    isOpen,
+    onClose,
+    title,
+    children,
+    className,
+    closeOnBackdropClick = true
+}: ModalProps) {
+    const modalRef = useRef<HTMLDivElement>(null);
+    const previousActiveElementRef = useRef<HTMLElement | null>(null);
+
     useEffect(() => {
         if (!isOpen) return;
+
+        // Store the previously focused element
+        previousActiveElementRef.current = document.activeElement as HTMLElement;
 
         const handleEscape = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
@@ -19,12 +33,23 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
             }
         };
 
+        // Focus trap: focus the modal content
+        const modalContent = modalRef.current?.querySelector('[tabindex="-1"], button, input, textarea, select') as HTMLElement;
+        if (modalContent) {
+            modalContent.focus();
+        }
+
         document.addEventListener('keydown', handleEscape);
         document.body.style.overflow = 'hidden';
 
         return () => {
             document.removeEventListener('keydown', handleEscape);
             document.body.style.overflow = 'unset';
+
+            // Return focus to the previously focused element
+            if (previousActiveElementRef.current) {
+                previousActiveElementRef.current.focus();
+            }
         };
     }, [isOpen, onClose]);
 
@@ -37,19 +62,22 @@ export function Modal({ isOpen, onClose, title, children, className }: ModalProp
                 'bg-black/50 backdrop-blur-sm',
                 'transition-opacity duration-300 ease-out opacity-100'
             )}
-            onClick={onClose}
+            onClick={closeOnBackdropClick ? onClose : undefined}
             role="dialog"
             aria-modal="true"
             aria-labelledby={title ? 'modal-title' : undefined}
         >
             <div
+                ref={modalRef}
                 className={cn(
                     'bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md md:max-w-2xl max-h-[90vh] overflow-y-auto',
                     'transition-all duration-300 ease-out',
                     'animate-[modalEnter_0.3s_ease-out]',
+                    'focus:outline-none',
                     className
                 )}
                 onClick={(e) => e.stopPropagation()}
+                tabIndex={-1}
             >
                 {title && (
                     <div className="px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4">

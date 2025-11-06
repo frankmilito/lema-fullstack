@@ -3,14 +3,7 @@ import { toast } from "react-hot-toast";
 import { createPost, deletePost, updatePost } from "../services/posts";
 import type { Post } from "../types/post";
 import { postKeys } from "../utils/queryKeys";
-
-interface ApiError {
-    response?: {
-        data?: {
-            error?: string;
-        };
-    };
-}
+import type { ApiError } from "../services/api";
 
 export const useCreatePost = () => {
     const queryClient = useQueryClient();
@@ -24,19 +17,21 @@ export const useCreatePost = () => {
             });
         },
         onError: (error: ApiError) => {
-            const message = error?.response?.data?.error || "Failed to create post";
+            const message = error.message || "Failed to create post";
             toast.error(message);
-            console.error("Failed to create the post:", error);
+            if (import.meta.env.DEV) {
+                console.error("Failed to create the post:", error);
+            }
         },
     });
 };
 
-export const useDeletePost = (userId: string) => {
+export const useDeletePost = (userId: string | number) => {
     const queryClient = useQueryClient();
 
     return useMutation({
         mutationFn: deletePost,
-        onMutate: async (postId: string) => {
+        onMutate: async (postId: number) => {
             await queryClient.cancelQueries({ queryKey: postKeys.list(userId) });
 
             // Snapshot previous value
@@ -53,10 +48,11 @@ export const useDeletePost = (userId: string) => {
             if (context?.previousPosts) {
                 queryClient.setQueryData(postKeys.list(userId), context.previousPosts);
             }
-            const error = err as ApiError;
-            const message = error?.response?.data?.error || "Failed to Delete Post";
+            const message = err.message || "Failed to Delete Post";
             toast.error(message);
-            console.error("Failed to delete post:", err);
+            if (import.meta.env.DEV) {
+                console.error("Failed to delete post:", err);
+            }
         },
         onSuccess: () => {
             toast.success("Post Deleted");
@@ -68,11 +64,11 @@ export const useDeletePost = (userId: string) => {
 };
 
 interface UpdatePostParams {
-    postId: string;
+    postId: number;
     post: Post;
 }
 
-export const useUpdatePost = (userId: string) => {
+export const useUpdatePost = (userId: string | number) => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: ({ postId, post }: UpdatePostParams) =>
@@ -82,9 +78,11 @@ export const useUpdatePost = (userId: string) => {
             toast.success('Post updated successfully');
         },
         onError: (error: ApiError) => {
-            const message = error?.response?.data?.error || 'Failed to update post';
+            const message = error.message || 'Failed to update post';
             toast.error(message);
-            console.error('Failed to update post:', error);
+            if (import.meta.env.DEV) {
+                console.error('Failed to update post:', error);
+            }
         },
     });
 };

@@ -53,14 +53,18 @@ export function AddPostForm({
                     type="text"
                     {...register('title')}
                     placeholder="Give your post a title"
+                    maxLength={200}
                     className={cn(
                         'w-full px-4 py-2 border placeholder:text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
                         errors.title ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
                     )}
                     disabled={isFormLoading}
+                    aria-describedby={errors.title ? 'title-error' : undefined}
                 />
                 {errors.title && (
-                    <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.title.message}</p>
+                    <p id="title-error" className="mt-1 text-xs sm:text-sm text-red-500" role="alert">
+                        {errors.title.message}
+                    </p>
                 )}
             </div>
 
@@ -73,6 +77,7 @@ export function AddPostForm({
                     {...register('body')}
                     placeholder="Write something mind-blowing"
                     rows={5}
+                    maxLength={5000}
                     className={cn(
                         'w-full px-4 placeholder:text-sm py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y',
                         errors.body ? 'border-red-500 focus:ring-red-500' : 'border-gray-300'
@@ -80,7 +85,9 @@ export function AddPostForm({
                     disabled={isFormLoading}
                 />
                 {errors.body && (
-                    <p className="mt-1 text-xs sm:text-sm text-red-500">{errors.body.message}</p>
+                    <p className="mt-1 text-xs sm:text-sm text-red-500" role="alert">
+                        {errors.body.message}
+                    </p>
                 )}
             </div>
 

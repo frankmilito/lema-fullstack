@@ -3,7 +3,7 @@ import { api } from "./api";
 import type { User } from "../types/users";
 import type { Post } from "../types/post";
 
-export const getUsers = async (pageNumber: number, pageSize: number) => {
+export const getUsers = async (pageNumber: number, pageSize: number): Promise<User[]> => {
     const res = await api.get<User[]>(`/users?pageNumber=${pageNumber}&pageSize=${pageSize}`);
     return res.data;
 };
@@ -13,7 +13,7 @@ export const getUsersCount = async (): Promise<number> => {
     return res.data.count;
 };
 
-export const getUserPosts = async (userId: string) => {
+export const getUserPosts = async (userId: string | number): Promise<Post[]> => {
     const response = await api.get<Post[]>(`/posts?userId=${userId}`);
     return response.data;
 };

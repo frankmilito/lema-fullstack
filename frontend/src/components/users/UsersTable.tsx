@@ -14,15 +14,6 @@ interface UsersTableProps {
     onRowClick: (user: User) => void;
 }
 
-function formatAddress(user: User): string {
-    const addressParts: string[] = [];
-    if (user.street) addressParts.push(user.street);
-    if (user.state) addressParts.push(user.state);
-    if (user.city) addressParts.push(user.city);
-    if (user.zipcode) addressParts.push(user.zipcode);
-
-    return addressParts.length > 0 ? addressParts.join(', ') : '—';
-}
 
 export function UsersTable({
     users,
@@ -35,6 +26,7 @@ export function UsersTable({
     onPageChange,
     onRowClick,
 }: UsersTableProps) {
+
     const columns: ColumnDefinition<User>[] = [
         {
             id: 'name',
@@ -49,7 +41,7 @@ export function UsersTable({
         {
             id: 'address',
             header: 'Address',
-            accessor: (user) => formatAddress(user),
+            accessor: 'address',
             width: 392,
 
         },
