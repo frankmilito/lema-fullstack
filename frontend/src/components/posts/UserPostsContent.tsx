@@ -31,7 +31,7 @@ export function UserPostsContent({
     }, [navigate, searchParams]);
 
     return (
-        <div className="max-w-6xl xs:min-w-full md:min-w-3xl mx-auto p-6 min-h-[700px]">
+        <div className="max-w-6xl xs:min-w-full  mx-auto p-6 min-h-[700px]">
             <div className="flex items-center space-x-2 text-gray-500 mb-6">
                 <div className="flex items-center gap-4">
                     <button
