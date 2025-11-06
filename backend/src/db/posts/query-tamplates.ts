@@ -15,9 +15,3 @@ export const insertPostTemplate = `
 INSERT 
 INTO posts 
 (id, title, body, user_id, created_at) VALUES (?, ?, ?, ?, ?)`;
-
-export const updatePostTemplate = `
-  UPDATE posts 
-  SET title = ?, body = ?
-  WHERE id = ?
-`;

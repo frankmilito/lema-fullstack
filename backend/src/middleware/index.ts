@@ -9,7 +9,7 @@ export function validateBody(schema: z.ZodObject<any, any>) {
         } catch (error) {
             if (error instanceof ZodError) {
                 const errorMessages = error.issues.map((issue: ZodIssue) => ({
-                    message: `${issue.path.join('.')} is ${issue.message}`,
+                    message: issue.message,
                 }))
                 res.status(400).json(errorMessages[0]);
             } else {
@@ -27,7 +27,7 @@ export function validateQuery(schema: z.ZodObject<any, any>) {
         } catch (error) {
             if (error instanceof ZodError) {
                 const errorMessages = error.issues.map((issue: ZodIssue) => ({
-                    message: `${issue.path.join('.')} is ${issue.message}`,
+                    message: issue.message,
                 }))
                 res.status(400).json(errorMessages[0]);
             } else {

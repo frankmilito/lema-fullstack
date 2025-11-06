@@ -5,7 +5,7 @@ import { AddPostFormModal } from "../components/posts/AddPostFormModal";
 import { DeleteConfirmationModal } from "../components/posts/DeleteConfirmationModal";
 import { UserPostsContent } from "../components/posts/UserPostsContent";
 import type { Post } from "../types/post";
-import { useCreatePost, useDeletePost, useUpdatePost } from "../hooks/usePosts";
+import { useCreatePost, useDeletePost } from "../hooks/usePosts";
 import { useGetUserPosts } from "../hooks/useUsers";
 import { validateUserId } from "../utils/validation";
 
@@ -13,7 +13,6 @@ const UserPosts = () => {
     const { id } = useParams();
     const [searchParams] = useSearchParams();
     const [isOpen, setIsOpen] = useState(false);
-    const [editingPost, setEditingPost] = useState<Post | null>(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [postToDelete, setPostToDelete] = useState<Post | null>(null);
     const name = searchParams.get('user') || '';
@@ -21,37 +20,18 @@ const UserPosts = () => {
     const { mutateAsync: deletePost, isPending: isDeleting } = useDeletePost(userId);
     const { isLoading, data: posts, error } = useGetUserPosts(userId);
     const { mutateAsync: createPost, isPending: isCreating } = useCreatePost();
-    const { mutateAsync: updatePost, isPending: isUpdating } = useUpdatePost(userId);
 
     const handleAddPost = () => {
-        setEditingPost(null);
         setIsOpen(!isOpen);
     };
 
     const handleClose = () => {
         setIsOpen(false);
-        setEditingPost(null);
-    };
-
-    const handleEditPost = (post: Post) => {
-        setEditingPost(post);
-        setIsOpen(true);
     };
 
     const handleSubmitPost = async (data: { title: string; body: string }) => {
         try {
-            if (editingPost && editingPost.id) {
-                await updatePost({
-                    postId: editingPost.id,
-                    post: {
-                        ...editingPost,
-                        title: data.title,
-                        body: data.body,
-                    },
-                });
-            } else {
-                await createPost({ body: data.body, title: data.title, user_id: userId });
-            }
+            await createPost({ body: data.body, title: data.title, user_id: userId });
             handleClose();
         } catch (error) {
             if (import.meta.env.DEV) {
@@ -116,7 +96,6 @@ const UserPosts = () => {
                 name={name}
                 posts={posts || []}
                 onAddPost={handleAddPost}
-                onEditPost={handleEditPost}
                 onDeletePost={handleDeleteClick}
                 isDeleting={isDeleting}
             />
@@ -124,8 +103,7 @@ const UserPosts = () => {
                 isOpen={isOpen}
                 onClose={handleClose}
                 onSubmit={handleSubmitPost}
-                isLoading={isCreating || isUpdating}
-                editingPost={editingPost}
+                isLoading={isCreating}
             />
             <DeleteConfirmationModal
                 isOpen={isDeleteModalOpen}

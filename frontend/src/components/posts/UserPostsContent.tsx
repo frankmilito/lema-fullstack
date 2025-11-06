@@ -9,7 +9,6 @@ export interface UserPostsContentProps {
     name?: string;
     posts: Post[];
     onAddPost: () => void;
-    onEditPost: (post: Post) => void;
     onDeletePost: (post: Post) => void;
     isDeleting?: boolean;
 }
@@ -18,7 +17,6 @@ export function UserPostsContent({
     name,
     posts,
     onAddPost,
-    onEditPost,
     onDeletePost,
     isDeleting = false,
 }: UserPostsContentProps) {
@@ -63,7 +61,6 @@ export function UserPostsContent({
                         title={post.title}
                         content={post.body}
                         onDelete={() => onDeletePost(post)}
-                        onClick={() => onEditPost(post)}
                         isDeleting={isDeleting}
                     />
                 ))}

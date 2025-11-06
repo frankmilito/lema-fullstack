@@ -8,36 +8,28 @@ export interface AddPostFormProps {
     onSubmit: (data: { title: string; body: string }) => void | Promise<void>;
     onCancel: () => void;
     isLoading?: boolean;
-    initialTitle?: string;
-    initialBody?: string;
 }
 
 export function AddPostForm({
     onSubmit,
     onCancel,
     isLoading = false,
-    initialTitle = '',
-    initialBody = ''
 }: AddPostFormProps) {
 
     const {
         register,
         handleSubmit,
         formState: { errors, isSubmitting },
-        reset,
     } = useForm<PostFormData>({
         resolver: zodResolver(postFormSchema),
         defaultValues: {
-            title: initialTitle,
-            body: initialBody,
+            title: '',
+            body: '',
         },
     });
 
     const onSubmitForm = async (data: PostFormData) => {
         await onSubmit(data);
-        if (!initialTitle && !initialBody) {
-            reset();
-        }
     };
 
     const isFormLoading = isLoading || isSubmitting;
@@ -106,7 +98,7 @@ export function AddPostForm({
                     isLoading={isFormLoading}
                     disabled={isFormLoading}
                 >
-                    {initialTitle ? 'Update' : 'Publish'}
+                    Publish
                 </Button>
             </div>
         </form>

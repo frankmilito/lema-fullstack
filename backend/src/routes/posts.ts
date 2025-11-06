@@ -1,7 +1,7 @@
 import { Router, Request, Response } from "express";
-import { createPost, deletePost, getPosts, updatePost } from "../db/posts/posts";
+import { createPost, deletePost, getPosts } from "../db/posts/posts";
 import { validateBody, validateQuery } from "../middleware";
-import { CreatePostSchema, GetPostSchema, UpdatePostSchema } from "../dto/posts";
+import { CreatePostSchema, GetPostSchema } from "../dto/posts";
 import { HTTP_STATUS } from "../constants/http-status";
 
 const router = Router();
@@ -55,37 +55,8 @@ const handleDeletePost = async (req: Request, res: Response) => {
   }
 };
 
-const handleUpdatePost = async (req: Request, res: Response) => {
-  const postId = req.params.postId;
-  const { title, body } = req.body;
-
-  if (!postId) {
-    res.status(HTTP_STATUS.BAD_REQUEST).send({ error: "Invalid post ID" });
-    return;
-  }
-
-  try {
-    await updatePost(postId, title, body);
-    res.status(HTTP_STATUS.OK).send({ message: "Post updated successfully" });
-  } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message === "Post not found"
-    ) {
-      res.status(HTTP_STATUS.NOT_FOUND).send({ error: error.message });
-    } else {
-      const errorMessage =
-        error instanceof Error ? error.message : "Internal Server Error";
-      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({
-        error: errorMessage,
-      });
-    }
-  }
-};
-
 router.get("/", validateQuery(GetPostSchema), handleGetPosts);
 router.post("/", validateBody(CreatePostSchema), handleAddPost);
 router.delete("/:postId", handleDeletePost);
-router.put("/:postId", validateBody(UpdatePostSchema), handleUpdatePost);
 
 export default router;

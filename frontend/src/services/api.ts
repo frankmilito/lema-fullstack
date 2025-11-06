@@ -29,10 +29,18 @@ api.interceptors.response.use(
             });
         }
 
+        let errorMessage = error.message || 'An unexpected error occurred';
+        if (error.response?.data && typeof error.response.data === 'object') {
+            const responseData = error.response.data as Record<string, unknown>;
+            if ('error' in responseData && typeof responseData.error === 'string') {
+                errorMessage = responseData.error;
+            } else if ('message' in responseData && typeof responseData.message === 'string') {
+                errorMessage = responseData.message;
+            }
+        }
+
         const apiError = {
-            message: error.response?.data && typeof error.response.data === 'object' && 'error' in error.response.data
-                ? (error.response.data as { error: string }).error
-                : error.message || 'An unexpected error occurred',
+            message: errorMessage,
             status: error.response?.status,
             originalError: error,
         };

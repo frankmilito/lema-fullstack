@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
-import { createPost, deletePost, updatePost } from "../services/posts";
+import { createPost, deletePost } from "../services/posts";
 import type { Post } from "../types/post";
 import { postKeys } from "../utils/queryKeys";
 import type { ApiError } from "../services/api";
@@ -59,30 +59,6 @@ export const useDeletePost = (userId: string | number) => {
         },
         onSettled: () => {
             queryClient.invalidateQueries({ queryKey: postKeys.list(userId) });
-        },
-    });
-};
-
-interface UpdatePostParams {
-    postId: number;
-    post: Post;
-}
-
-export const useUpdatePost = (userId: string | number) => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: ({ postId, post }: UpdatePostParams) =>
-            updatePost(postId, post),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: postKeys.list(userId) });
-            toast.success('Post updated successfully');
-        },
-        onError: (error: ApiError) => {
-            const message = error.message || 'Failed to update post';
-            toast.error(message);
-            if (import.meta.env.DEV) {
-                console.error('Failed to update post:', error);
-            }
         },
     });
 };

@@ -5,26 +5,17 @@ export interface PostCardProps {
     title: string;
     content: string;
     onDelete?: () => void;
-    onClick?: () => void;
     className?: string;
     isDeleting?: boolean;
 }
 
-export function PostCard({ title, content, onDelete, onClick, className, isDeleting = false }: PostCardProps) {
+export function PostCard({ title, content, onDelete, className, isDeleting = false }: PostCardProps) {
     return (
         <div
             className={cn(
                 'bg-white rounded-lg border border-gray-200 shadow-sm p-4 flex flex-col w-[270px] min-h-[290px] overflow-hidden',
-                onClick && 'cursor-pointer hover:shadow-md transition-shadow',
                 className
             )}
-            onClick={onClick}
-            onKeyDown={onClick ? (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    onClick();
-                }
-            } : undefined}
         >
             <div className="w-full mb-4">
                 {onDelete && (

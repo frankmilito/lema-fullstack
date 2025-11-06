@@ -4,7 +4,6 @@ import {
   deletePostTemplate,
   insertPostTemplate,
   selectPostsTemplate,
-  updatePostTemplate,
 } from './query-tamplates';
 import { Post } from './types';
 
@@ -61,27 +60,6 @@ export const createPost = (
           created_at,
         };
         resolve(newPost);
-      }
-    );
-  });
-
-export const updatePost = (
-  postId: string,
-  title: string,
-  body: string
-): Promise<void> =>
-  new Promise((resolve, reject) => {
-    connection.run(
-      updatePostTemplate,
-      [title, body, postId],
-      function (error) {
-        if (error) {
-          reject(error);
-        }
-        if (this.changes === 0) {
-          reject(new Error('Post not found'));
-        }
-        resolve();
       }
     );
   });

@@ -4,7 +4,7 @@ const PostTitleSchema = z
     .string()
     .min(1, "Post title is required")
     .min(3, "Post title must be at least 3 characters")
-    .max(200, "Post title must be less than 200 characters")
+    .max(100, "Post title must be less than 100 characters")
     .trim();
 
 const PostBodySchema = z
@@ -22,8 +22,6 @@ const BasePostSchema = z.object({
 export const CreatePostSchema = BasePostSchema.extend({
     user_id: z.string(),
 });
-
-export const UpdatePostSchema = BasePostSchema;
 
 export const RemovePostSchema = z.object({
     userId: z.string(),
