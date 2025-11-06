@@ -50,7 +50,7 @@ const UserPosts = () => {
                     },
                 });
             } else {
-                await createPost({ body: data.body, title: data.title, userId });
+                await createPost({ body: data.body, title: data.title, user_id: userId });
             }
             handleClose();
         } catch (error) {

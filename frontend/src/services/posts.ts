@@ -2,7 +2,7 @@
 import type { Post } from "../types/post";
 import { api } from "./api";
 
-export const createPost = async (payload: { body: string, title: string, userId: string | number }) => {
+export const createPost = async (payload: { body: string, title: string, user_id: string | number }) => {
     const response = await api.post<Post>("/posts", payload);
     return response.data;
 };

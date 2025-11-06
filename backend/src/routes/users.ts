@@ -1,24 +1,42 @@
 import { Router, Request, Response } from "express";
-
 import { getUsers, getUsersCount } from "../db/users/users";
+import { validateQuery } from "../middleware";
+import { paginateUserSchema } from "../dto/user";
+import { HTTP_STATUS } from "../constants/http-status";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
-  const pageNumber = Number(req.query.pageNumber) || 0;
-  const pageSize = Number(req.query.pageSize) || 4;
-  if (pageNumber < 0 || pageSize < 1) {
-    res.status(400).send({ message: "Invalid page number or page size" });
-    return;
+const handleGetUsers = async (req: Request, res: Response) => {
+  try {
+    const { pageNumber, pageSize } = req.query as { pageNumber: string; pageSize: string };
+    const pageNum = Number(pageNumber) || 0;
+    const pageSz = Number(pageSize) || 4;
+
+    const users = await getUsers(pageNum, pageSz);
+    res.status(HTTP_STATUS.OK).send(users);
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+    res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .send({ message: "Failed to retrieve users", error: errorMessage });
   }
+};
 
-  const users = await getUsers(pageNumber, pageSize);
-  res.send(users);
-});
+const handleGetUsersCount = async (req: Request, res: Response) => {
+  try {
+    const count = await getUsersCount();
+    res.status(HTTP_STATUS.OK).send({ count });
+  } catch (error) {
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+    res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .send({ message: "Failed to retrieve users count", error: errorMessage });
+  }
+};
 
-router.get("/count", async (req: Request, res: Response) => {
-  const count = await getUsersCount();
-  res.send({ count });
-});
+router.get("/", validateQuery(paginateUserSchema), handleGetUsers);
+router.get("/count", handleGetUsersCount);
 
 export default router;

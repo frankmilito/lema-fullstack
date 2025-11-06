@@ -1,96 +1,91 @@
 import { Router, Request, Response } from "express";
 import { createPost, deletePost, getPosts, updatePost } from "../db/posts/posts";
-import { getUserById } from "../db/users/users";
+import { validateBody, validateQuery } from "../middleware";
+import { CreatePostSchema, GetPostSchema, UpdatePostSchema } from "../dto/posts";
+import { HTTP_STATUS } from "../constants/http-status";
 
 const router = Router();
 
-router.get("/", async (req: Request, res: Response) => {
+const handleGetPosts = async (req: Request, res: Response) => {
   try {
-    const userId = req.query.userId?.toString();
-    if (!userId) {
-      res.status(400).send({ error: "userId is required" });
-      return;
-    }
+    const { userId } = req.query as { userId: string };
     const posts = await getPosts(userId);
-    res.send(posts || []);
+    res.status(HTTP_STATUS.OK).send(posts);
   } catch (error) {
-    console.error("Error fetching posts:", error);
-    res.status(500).send({
-      error: error instanceof Error ? error.message : 'Internal Server Error',
-    });
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+    res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .send({ message: "Failed to retrieve posts", error: errorMessage });
   }
-});
+};
 
-router.post('/', async (req: Request, res: Response) => {
+const handleAddPost = async (req: Request, res: Response) => {
   try {
-    const { title, body, userId } = req.body;
-    if (!title || !body || !userId) {
-      res.status(400).send({ error: 'Title, body, and user id are required' });
-      return;
-    }
-
-    const userExists = await getUserById(userId);
-    if (!userExists) {
-      res.status(400).send({ error: 'User not found' });
-      return;
-    }
-    const newPost = await createPost(title, body, userId);
-    res.status(201).send(newPost);
+    const payload = req.body;
+    const { title, body, user_id } = payload;
+    await createPost(title, body, user_id);
+    res
+      .status(HTTP_STATUS.CREATED)
+      .send({ message: "Post added successfully", data: payload });
   } catch (error) {
-    console.error('Error creating post:', error);
-    res.status(500).send({
-      error: error instanceof Error ? error.message : 'Internal Server Error',
-    });
+    const errorMessage =
+      error instanceof Error ? error.message : "An unexpected error occurred";
+    res
+      .status(HTTP_STATUS.BAD_REQUEST)
+      .send({ message: "Failed to add post", error: errorMessage });
   }
-});
+};
 
-router.delete('/:postId', async (req: Request, res: Response) => {
+const handleDeletePost = async (req: Request, res: Response) => {
   const postId = req.params.postId;
 
   if (!postId) {
-    res.status(400).send({ error: 'Invalid post ID' });
+    res.status(HTTP_STATUS.BAD_REQUEST).send({ error: "Invalid post ID" });
     return;
   }
 
   try {
     await deletePost(postId);
-    res.status(200).send({ message: 'Post deleted successfully' });
+    res.status(HTTP_STATUS.OK).send({ message: "Post deleted successfully" });
   } catch (error) {
-    res.status(500).send({
-      error: error instanceof Error ? error.message : 'Internal Server Error',
+    res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({
+      error: error instanceof Error ? error.message : "Internal Server Error",
     });
   }
-});
+};
 
-router.put('/:postId', async (req: Request, res: Response) => {
+const handleUpdatePost = async (req: Request, res: Response) => {
   const postId = req.params.postId;
-  const { title, body, userId } = req.body;
+  const { title, body } = req.body;
 
   if (!postId) {
-    res.status(400).send({ error: 'Invalid post ID' });
-    return;
-  }
-
-  if (!title || !body) {
-    res.status(400).send({ error: 'Title and body are required' });
+    res.status(HTTP_STATUS.BAD_REQUEST).send({ error: "Invalid post ID" });
     return;
   }
 
   try {
     await updatePost(postId, title, body);
-    res.status(200).send({ message: 'Post updated successfully' });
+    res.status(HTTP_STATUS.OK).send({ message: "Post updated successfully" });
   } catch (error) {
     if (
       error instanceof Error &&
-      error.message === 'Post not found or unauthorized'
+      error.message === "Post not found"
     ) {
-      res.status(404).send({ error: error.message });
+      res.status(HTTP_STATUS.NOT_FOUND).send({ error: error.message });
     } else {
-      res.status(500).send({
-        error: error instanceof Error ? error.message : 'Internal Server Error',
+      const errorMessage =
+        error instanceof Error ? error.message : "Internal Server Error";
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({
+        error: errorMessage,
       });
     }
   }
-});
+};
+
+router.get("/", validateQuery(GetPostSchema), handleGetPosts);
+router.post("/", validateBody(CreatePostSchema), handleAddPost);
+router.delete("/:postId", handleDeletePost);
+router.put("/:postId", validateBody(UpdatePostSchema), handleUpdatePost);
 
 export default router;

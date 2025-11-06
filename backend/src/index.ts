@@ -1,11 +1,20 @@
 import express, { Application } from "express";
+import helmet from "helmet";
+import compression from "compression";
 import config from "config";
 import postsRouter from "./routes/posts";
 import usersRouter from "./routes/users";
 const port = config.get("port") as number;
 
 const app: Application = express();
-app.use(express.json());
+app.enable('trust proxy');
+
+app.use(helmet());
+app.use(compression());
+
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true }));
+
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");

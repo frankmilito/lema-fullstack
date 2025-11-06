@@ -46,11 +46,11 @@ export function UserPostsContent({
             </div>
 
             <div className="mb-6">
-                <h1 className="text-xl sm:text-2xl font-bold text-primary-200 mb-2">
+                <h1 className="text-xl sm:text-2xl font-bold text-primary-200 mb-4">
                     {name || 'User Posts'}
                 </h1>
-                <p className="text-sm sm:text-base text-primary-200">
-                    {posts?.length || 0} {posts?.length === 1 ? 'Post' : 'Posts'}
+                <p className="text-xs sm:text-sm text-primary-200">
+                    {name} &bull; {posts?.length || 0} {posts?.length === 1 ? 'Post' : 'Posts'}
                 </p>
             </div>
 

@@ -13,7 +13,7 @@ export const useCreatePost = () => {
         onSuccess: (_, variables) => {
             toast.success("Post Created");
             queryClient.invalidateQueries({
-                queryKey: postKeys.list(variables.userId),
+                queryKey: postKeys.list(variables.user_id),
             });
         },
         onError: (error: ApiError) => {

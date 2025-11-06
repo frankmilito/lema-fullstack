@@ -36,7 +36,7 @@ export const deletePost = (postId: string): Promise<void> =>
 export const createPost = (
   title: string,
   body: string,
-  userId: number
+  userId: string
 ): Promise<Post> =>
   new Promise((resolve, reject) => {
     const created_at = new Date().toISOString();
