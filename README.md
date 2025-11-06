@@ -2,20 +2,169 @@
 
 This full-stack assignment involves building a user management system where developers must extend a Node.js/SQLite backend for user and post operations, and create a React/TypeScript frontend that displays user data in a paginated table and allows for post management, all while following provided design specifications.
 
+## Running the Application Locally
+
+### Prerequisites
+
+- Node.js (at least v16)
+- npm (at least v8)
+- SQLite (comes bundled with Node.js)
+
+### Backend
+
+1. Clone the repository.
+2. Navigate into the `backend` directory.
+3. Install dependencies with `npm install`.
+4. Build the server in `dist` folder with `npm run build`.
+5. Start the server in `dist` folder with `npm run start`.
+6. Start the server locally or on development with `npm run dev`.
+
+The server should now be accessible at `http://localhost:3001`.
+
+### Frontend
+
+1. Clone the repository.
+2. Navigate into the `frontend` directory.
+3. Install dependencies with `npm install`.
+4. Set environment variables in a `.env` file (see `.env.example` for reference):
+   - `VITE_API_URL` - The backend API URL (defaults to `http://localhost:3001` if not set)
+5. Start the development server with `npm run dev`.
+6. Build the client side with `npm run build`.
+7. Test the components with `npm run test`.
+
+The client should now be accessible at `http://localhost:5173`.
+
+## Project Structure
+
+```
+project-root/
+├── .gitignore
+├── README.md
+├── backend/
+│   ├── config/
+│   │   └── default.json
+│   ├── data.db
+│   ├── nodemon.json
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── README.md
+│   ├── src/
+│   │   ├── db/
+│   │   │   ├── connection.ts
+│   │   │   ├── posts/
+│   │   │   │   ├── posts.ts
+│   │   │   │   ├── query-tamplates.ts
+│   │   │   │   └── types.ts
+│   │   │   ├── users/
+│   │   │   │   ├── query-templates.ts
+│   │   │   │   ├── types.ts
+│   │   │   │   └── users.ts
+│   │   ├── index.ts
+│   │   ├── routes/
+│   │   │   ├── posts.ts
+│   │   │   └── users.ts
+│   │   └── schemas/
+│   └── tsconfig.json
+├── frontend/
+│   ├── __mocks__/
+│   │   └── fileMock.js
+│   ├── dist/
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── jest.config.cjs
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── postcss.config.js
+│   ├── public/
+│   │   ├── _redirects
+│   │   └── vite.svg
+│   ├── README.md
+│   ├── src/
+│   │   ├── App.tsx
+│   │   ├── assets/
+│   │   │   ├── add_circle.svg
+│   │   │   ├── chevron-left.svg
+│   │   │   ├── chevron-right.svg
+│   │   │   └── delete-icon.svg
+│   │   ├── components/
+│   │   │   ├── ErrorBoundary.tsx
+│   │   │   ├── layout/
+│   │   │   │   └── PageLayout.tsx
+│   │   │   ├── posts/
+│   │   │   │   ├── AddPostCard.tsx
+│   │   │   │   ├── AddPostForm.test.tsx
+│   │   │   │   ├── AddPostForm.tsx
+│   │   │   │   ├── AddPostFormModal.tsx
+│   │   │   │   ├── DeleteConfirmationModal.tsx
+│   │   │   │   ├── PostCard.tsx
+│   │   │   │   └── UserPostsContent.tsx
+│   │   │   ├── ui/
+│   │   │   │   ├── Button.tsx
+│   │   │   │   ├── EmptyMessage.tsx
+│   │   │   │   ├── Modal.tsx
+│   │   │   │   ├── Pagination.test.tsx
+│   │   │   │   ├── Pagination.tsx
+│   │   │   │   ├── Spinner.tsx
+│   │   │   │   └── Table/
+│   │   │   │       ├── index.ts
+│   │   │   │       ├── Table.test.tsx
+│   │   │   │       ├── Table.tsx
+│   │   │   │       └── types.ts
+│   │   │   └── users/
+│   │   │       └── UsersTable.tsx
+│   │   ├── hooks/
+│   │   │   ├── usePosts.ts
+│   │   │   └── useUsers.ts
+│   │   ├── index.css
+│   │   ├── jest-dom.d.ts
+│   │   ├── main.tsx
+│   │   ├── pages/
+│   │   │   ├── Users.tsx
+│   │   │   └── UsersPost.tsx
+│   │   ├── routes/
+│   │   │   └── AppRoutes.tsx
+│   │   ├── schemas/
+│   │   │   └── post.ts
+│   │   ├── services/
+│   │   │   ├── api.ts
+│   │   │   ├── posts.ts
+│   │   │   └── users.ts
+│   │   ├── setupTests.ts
+│   │   ├── svg.d.ts
+│   │   ├── types/
+│   │   │   ├── post.ts
+│   │   │   └── users.ts
+│   │   ├── utils/
+│   │   │   ├── cn.ts
+│   │   │   ├── queryKeys.ts
+│   │   │   └── validation.ts
+│   │   └── vite-env.d.ts
+│   ├── tailwind.config.ts
+│   ├── tsconfig.app.json
+│   ├── tsconfig.jest.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   ├── vercel.json
+│   └── vite.config.ts
+```
 
 ## Backend
 
 ### Provided Backend
 
 A Node server written in TypeScript is provided.
-The server utilizes an SQLite database (data.db) containing all relevant data, including users posts and addresses.
+The server utilizes an SQLite database (`data.db`) containing all relevant data, including users, posts, and addresses.
 The server exposes several partial RESTful API endpoints:
 
-User Endpoints:
-- `GET /users` -  Returns a list of users with pagination support. (e.g., /users?pageNumber=0&pageSize=10).
+**User Endpoints:**
+- `GET /users` - Returns a list of users with pagination support. (e.g., `/users?pageNumber=0&pageSize=10`).
 - `GET /users/count` - Returns the total number of users.
-Post Endpoint:
-- `GET /posts` - Returns posts filtered by a specific user ID, using the userId query parameter (e.g., /posts?userId={userId}).
+
+**Post Endpoints:**
+- `GET /posts` - Returns posts filtered by a specific user ID, using the userId query parameter (e.g., `/posts?userId={userId}`).
+- `POST /posts` - Creates a new post for a user. Requires `title`, `body`, and `userId` in the request body.
+- `PUT /posts/:postId` - Updates an existing post by ID. Requires `title` and `body` in the request body.
+- `DELETE /posts/:postId` - Deletes a post by its ID.
 
 ### Backend Requirements
 
@@ -34,7 +183,7 @@ You are required to implement the following backend functionalities:
   - Validate input data and handle errors.
   - Save the new post to the database upon success.
 
-## Front-End
+## Frontend
 
 ### General Requirements
 
