@@ -1,4 +1,4 @@
-import { cn } from '../../utils/cn';
+import { cn } from '../../../utils/cn';
 
 export interface EmptyMessageProps {
     message: string;
@@ -29,4 +29,3 @@ export function EmptyMessage({
         </div>
     );
 }
-

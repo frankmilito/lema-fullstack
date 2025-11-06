@@ -1,10 +1,9 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { useState } from "react";
-import Spinner from "../components/ui/Spinner";
+import { Spinner, EmptyMessage } from "../components/ui";
 import { AddPostFormModal } from "../components/posts/AddPostFormModal";
 import { DeleteConfirmationModal } from "../components/posts/DeleteConfirmationModal";
 import { UserPostsContent } from "../components/posts/UserPostsContent";
-import { EmptyMessage } from "../components/ui/EmptyMessage";
 import type { Post } from "../types/post";
 import { useCreatePost, useDeletePost, useUpdatePost } from "../hooks/usePosts";
 import { useGetUserPosts } from "../hooks/useUsers";

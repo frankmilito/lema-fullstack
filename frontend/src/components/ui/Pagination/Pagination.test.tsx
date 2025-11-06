@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Pagination } from './Pagination';
+import { Pagination } from './index';
 
 describe('Pagination Component', () => {
     const mockOnPageChange = jest.fn();
@@ -159,4 +159,3 @@ describe('Pagination Component', () => {
         });
     });
 });
-

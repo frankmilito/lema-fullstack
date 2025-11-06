@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '../ui/Button';
+import { Button } from '../ui';
 import { postFormSchema, type PostFormData } from '../../schemas/post';
 import { cn } from '../../utils/cn';
 

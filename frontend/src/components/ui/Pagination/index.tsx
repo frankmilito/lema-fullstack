@@ -1,8 +1,8 @@
-import type { PaginationConfig } from './Table/types';
-import { Button } from './Button';
-import chevronRight from '../../assets/chevron-right.svg';
-import chevronLeft from '../../assets/chevron-left.svg';
-import { cn } from '../../utils/cn';
+import type { PaginationConfig } from '../Table/types';
+import { Button } from '../Button';
+import chevronRight from '../../../assets/chevron-right.svg';
+import chevronLeft from '../../../assets/chevron-left.svg';
+import { cn } from '../../../utils/cn';
 
 interface PaginationProps extends PaginationConfig {
     className?: string;
@@ -132,4 +132,3 @@ export function Pagination({
         </nav>
     );
 }
-

@@ -1,5 +1,5 @@
 import { useEffect, useRef, type ReactNode } from 'react';
-import { cn } from '../../utils/cn';
+import { cn } from '../../../utils/cn';
 
 export interface ModalProps {
     isOpen: boolean;
@@ -93,4 +93,3 @@ export function Modal({
         </div>
     );
 }
-

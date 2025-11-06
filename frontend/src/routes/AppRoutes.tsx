@@ -1,6 +1,6 @@
 import React, { Suspense, type JSX } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Spinner from '../components/ui/Spinner';
+import { Spinner } from '../components/ui';
 
 const UsersPage = React.lazy(() => import('../pages/Users'));
 const UserPostPage = React.lazy(() => import('../pages/UsersPost'));

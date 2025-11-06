@@ -1,6 +1,5 @@
 import type { TableProps, ColumnDefinition } from './types';
-import Spinner from '../Spinner';
-import { EmptyMessage } from '../EmptyMessage';
+import { Spinner, EmptyMessage } from '../index';
 import { cn } from '../../../utils/cn';
 
 function renderCell<T extends Record<string, unknown>>(

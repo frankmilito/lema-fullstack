@@ -1,4 +1,4 @@
-import { Modal } from '../ui/Modal';
+import { Modal } from '../ui';
 import { AddPostForm } from './AddPostForm';
 import type { Post } from '../../types/post';
 

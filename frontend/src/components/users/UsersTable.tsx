@@ -1,5 +1,5 @@
 import { Table, type ColumnDefinition } from '../ui/Table';
-import { Pagination } from '../ui/Pagination';
+import { Pagination } from '../ui';
 import type { User } from '../../types/users';
 
 interface UsersTableProps {

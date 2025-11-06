@@ -1,5 +1,4 @@
-import { Modal } from '../ui/Modal';
-import { Button } from '../ui/Button';
+import { Modal, Button } from '../ui';
 import type { Post } from '../../types/post';
 
 export interface DeleteConfirmationModalProps {
