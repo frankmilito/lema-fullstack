@@ -41,17 +41,17 @@ export function UserPostsContent({
                     >
                         Users List <img src={chevronRightIcon} alt="" aria-hidden="true" />
                     </button>
-                    <span className="text-primary-200 text-xs sm:text-sm">{name}</span>
+                    <span className="text-primary-100 text-xs sm:text-sm">{name}</span>
                 </div>
             </div>
 
             <div className="mb-6">
-                <h1 className="text-xl sm:text-2xl font-bold text-primary-200 mb-4">
+                <h1 className="text-xl sm:text-3xl font-medium text-primary-100 mb-6">
                     {name || 'User Posts'}
                 </h1>
-                <p className="text-xs sm:text-sm text-primary-200">
-                    {name} &bull; {posts?.length || 0} {posts?.length === 1 ? 'Post' : 'Posts'}
-                </p>
+                <div className="text-xs sm:text-sm text-primary-200">
+                    {name} &bull; <span className="text-primary-100">{posts?.length || 0} {posts?.length === 1 ? 'Post' : 'Posts'}</span>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 h-full items-stretch">

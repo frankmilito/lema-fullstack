@@ -14,7 +14,7 @@ export function PostCard({ title, content, onDelete, onClick, className, isDelet
     return (
         <div
             className={cn(
-                'bg-white rounded-lg border border-gray-200 shadow-sm p-6 flex flex-col w-[270px] min-h-[290px] overflow-hidden',
+                'bg-white rounded-lg border border-gray-200 shadow-sm p-4 flex flex-col w-[270px] min-h-[290px] overflow-hidden',
                 onClick && 'cursor-pointer hover:shadow-md transition-shadow',
                 className
             )}
@@ -46,7 +46,7 @@ export function PostCard({ title, content, onDelete, onClick, className, isDelet
                     </div>
                 )}
                 <h3
-                    className="text-base sm:text-lg font-bold text-primary-100 pr-2 flex-1 overflow-hidden"
+                    className="text-base sm:text-lg font-medium text-primary-100 pr-2 flex-1 overflow-hidden"
                     style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
                 >
                     {title}
