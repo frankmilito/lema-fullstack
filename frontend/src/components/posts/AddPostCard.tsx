@@ -11,9 +11,9 @@ export function AddPostCard({ onClick, className }: AddPostCardProps) {
         <div
             className={cn(
                 'bg-white rounded-lg border-2 border-dashed border-gray-300',
-                'aspect-square flex flex-col items-center justify-center',
+                'flex flex-col items-center justify-center',
                 'cursor-pointer transition-colors hover:border-gray-400',
-                'p-6 min-w-[280px]',
+                'p-6 w-[270px] min-h-[290px]',
                 className
             )}
             onClick={onClick}

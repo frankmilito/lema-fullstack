@@ -46,7 +46,7 @@ const Users = () => {
 
     return (
         <PageLayout>
-            <div className="space-y-6">
+            <div className="space-y-6 mx-auto max-w-[880px]">
                 <h1 className="text-2xl sm:text-3xl font-medium text-primary-100">Users</h1>
                 <UsersTable
                     users={users}

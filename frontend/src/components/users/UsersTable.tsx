@@ -65,7 +65,6 @@ export function UsersTable({
                 emptyMessage="No users found"
                 getRowKey={(user) => user.id}
                 onRowClick={onRowClick}
-
             />
 
             {totalPages > 1 && (

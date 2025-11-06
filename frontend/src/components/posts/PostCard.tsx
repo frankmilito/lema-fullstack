@@ -13,7 +13,7 @@ export function PostCard({ title, content, onDelete, onClick, className }: PostC
     return (
         <div
             className={cn(
-                'bg-white rounded-lg border border-gray-200 shadow-sm p-6 flex flex-col min-w-[280px]',
+                'bg-white rounded-lg border border-gray-200 shadow-sm p-6 flex flex-col w-[270px] min-h-[290px] overflow-hidden',
                 onClick && 'cursor-pointer hover:shadow-md transition-shadow',
                 className
             )}
@@ -39,16 +39,24 @@ export function PostCard({ title, content, onDelete, onClick, className }: PostC
                         </button>
                     </div>
                 )}
-                <h3 className="text-base sm:text-lg font-bold text-primary-100 pr-2 flex-1">
+                <h3
+                    className="text-base sm:text-lg font-bold text-primary-100 pr-2 flex-1 overflow-hidden"
+                    style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
+                >
                     {title}
                 </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-gray-700 overflow-hidden text-ellipsis" style={{
-                display: '-webkit-box',
-                WebkitLineClamp: 8,
-                WebkitBoxOrient: 'vertical',
-            }}>
+            <p
+                className="text-xs sm:text-sm text-gray-700 overflow-hidden"
+                style={{
+                    display: '-webkit-box',
+                    WebkitLineClamp: 8,
+                    WebkitBoxOrient: 'vertical',
+                    wordBreak: 'break-word',
+                    overflowWrap: 'break-word',
+                }}
+            >
                 {content}
             </p>
         </div>
