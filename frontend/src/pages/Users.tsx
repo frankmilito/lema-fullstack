@@ -9,8 +9,6 @@ const Users = () => {
     const navigate = useNavigate();
     const [searchParams, setSearchParams] = useSearchParams();
     const pageSize = 4;
-
-    // Get page from URL params, default to 1
     const pageFromUrl = parseInt(searchParams.get('page') || '1', 10);
     const initialPage = pageFromUrl > 0 ? pageFromUrl : 1;
 
@@ -23,7 +21,6 @@ const Users = () => {
         totalCount
     } = useGetUsers(initialPage, pageSize);
 
-    // Update URL if page exceeds total pages or is invalid
     useEffect(() => {
         if (!isLoading && totalPages > 0) {
             if (initialPage > totalPages) {

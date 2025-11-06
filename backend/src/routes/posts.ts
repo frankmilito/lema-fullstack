@@ -37,7 +37,7 @@ router.post('/', async (req: Request, res: Response) => {
     const newPost = await createPost(title, body, userId);
     res.status(201).send(newPost);
   } catch (error) {
-    console.log(error, 'er')
+    console.error('Error creating post:', error);
     res.status(500).send({
       error: error instanceof Error ? error.message : 'Internal Server Error',
     });

@@ -1,4 +1,4 @@
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, } from "react-router-dom";
 import { useState } from "react";
 import Spinner from "../components/ui/Spinner";
 import { AddPostFormModal } from "../components/posts/AddPostFormModal";
@@ -14,12 +14,13 @@ const UserPosts = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [postToDelete, setPostToDelete] = useState<Post | null>(null);
     const { id } = useParams();
-    const { mutateAsync: deletePost, isPending: isDeleting } = useDeletePost();
-    const { isLoading, data: posts } = useGetUserPosts(id!);
-    const { mutateAsync: createPost, isPending: isCreating } = useCreatePost();
-    const { mutateAsync: updatePost, isPending: isUpdating } = useUpdatePost();
     const location = useLocation();
     const { name } = location.state || {};
+
+    const { mutateAsync: deletePost, isPending: isDeleting } = useDeletePost(id!);
+    const { isLoading, data: posts, error } = useGetUserPosts(id!);
+    const { mutateAsync: createPost, isPending: isCreating } = useCreatePost();
+    const { mutateAsync: updatePost, isPending: isUpdating } = useUpdatePost(id!);
 
     const handleAddPost = () => {
         setEditingPost(null);
@@ -37,19 +38,23 @@ const UserPosts = () => {
     };
 
     const handleSubmitPost = async (data: { title: string; body: string }) => {
-        if (editingPost && editingPost.id) {
-            await updatePost({
-                postId: editingPost.id.toString(),
-                post: {
-                    ...editingPost,
-                    title: data.title,
-                    body: data.body,
-                },
-            });
-        } else {
-            await createPost({ body: data.body, title: data.title, userId: id! });
+        try {
+            if (editingPost && editingPost.id) {
+                await updatePost({
+                    postId: editingPost.id,
+                    post: {
+                        ...editingPost,
+                        title: data.title,
+                        body: data.body,
+                    },
+                });
+            } else {
+                await createPost({ body: data.body, title: data.title, userId: id! });
+            }
+            handleClose();
+        } catch (error) {
+            console.error('Error submitting post:', error);
         }
-        handleClose();
     };
 
     const handleDeleteClick = (post: Post) => {
@@ -59,9 +64,13 @@ const UserPosts = () => {
 
     const handleConfirmDelete = async () => {
         if (postToDelete && postToDelete.id) {
-            await deletePost(postToDelete.id);
-            setIsDeleteModalOpen(false);
-            setPostToDelete(null);
+            try {
+                await deletePost(postToDelete.id);
+                setIsDeleteModalOpen(false);
+                setPostToDelete(null);
+            } catch (error) {
+                console.error('Error deleting post:', error);
+            }
         }
     };
 
@@ -74,6 +83,22 @@ const UserPosts = () => {
         return <Spinner className="min-h-screen" />
     }
 
+    if (error) {
+        return (
+            <div className="flex min-h-screen justify-center items-center">
+                <div className="text-center">
+                    <p className="text-red-500 mb-4">Error loading posts: {error.message}</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="flex min-h-screen justify-center items-center">
             <UserPostsContent
@@ -82,6 +107,7 @@ const UserPosts = () => {
                 onAddPost={handleAddPost}
                 onEditPost={handleEditPost}
                 onDeletePost={handleDeleteClick}
+                isDeleting={isDeleting}
             />
             <AddPostFormModal
                 isOpen={isOpen}

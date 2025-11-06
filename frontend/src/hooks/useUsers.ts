@@ -1,17 +1,18 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { getUserPosts, getUsers, getUsersCount } from "../services/users";
+import { postKeys, userKeys } from "../utils/queryKeys";
 
 export const useGetUsers = (pageNumber: number, pageSize = 4) => {
     const backendPageNumber = pageNumber - 1;
 
     const usersQuery = useQuery({
-        queryKey: ['users', pageNumber, pageSize],
+        queryKey: userKeys.list(pageNumber, pageSize),
         queryFn: () => getUsers(backendPageNumber, pageSize),
         placeholderData: keepPreviousData,
     });
 
     const countQuery = useQuery({
-        queryKey: ['users', 'count'],
+        queryKey: userKeys.count(),
         queryFn: getUsersCount,
     });
 
@@ -29,7 +30,7 @@ export const useGetUsers = (pageNumber: number, pageSize = 4) => {
 
 export const useGetUserPosts = (userId: string) => {
     const query = useQuery({
-        queryKey: ["posts", userId],
+        queryKey: postKeys.list(userId),
         queryFn: () => getUserPosts(userId),
         staleTime: 0,
     });

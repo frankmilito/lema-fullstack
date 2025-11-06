@@ -7,7 +7,7 @@ export const createPost = async (payload: { body: string, title: string, userId:
     return response.data;
 };
 
-export const deletePost = async (postId: number) => {
+export const deletePost = async (postId: string) => {
     const response = await api.delete(`/posts/${postId}`);
     return response.data;
 };

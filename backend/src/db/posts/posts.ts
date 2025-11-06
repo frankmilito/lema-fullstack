@@ -1,3 +1,4 @@
+import { randomInt } from "crypto";
 import { connection } from "../connection";
 import {
   deletePostTemplate,
@@ -39,8 +40,10 @@ export const createPost = (
 ): Promise<Post> =>
   new Promise((resolve, reject) => {
     const created_at = new Date().toISOString();
+    const timestamp = Date.now();
+    const random = randomInt(1000000, 9999999);
+    const id = timestamp * 10000000 + random;
 
-    const id = Date.now() + Math.floor(Math.random() * 1000000);
     connection.run(
       insertPostTemplate,
       [id, title, body, userId, created_at],

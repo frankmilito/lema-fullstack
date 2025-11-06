@@ -17,8 +17,8 @@ interface UsersTableProps {
 function formatAddress(user: User): string {
     const addressParts: string[] = [];
     if (user.street) addressParts.push(user.street);
-    if (user.city) addressParts.push(user.city);
     if (user.state) addressParts.push(user.state);
+    if (user.city) addressParts.push(user.city);
     if (user.zipcode) addressParts.push(user.zipcode);
 
     return addressParts.length > 0 ? addressParts.join(', ') : '—';

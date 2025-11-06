@@ -1,17 +1,19 @@
 
 import { api } from "./api";
+import type { User } from "../types/users";
+import type { Post } from "../types/post";
 
 export const getUsers = async (pageNumber: number, pageSize: number) => {
-    const res = await api.get(`/users?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+    const res = await api.get<User[]>(`/users?pageNumber=${pageNumber}&pageSize=${pageSize}`);
     return res.data;
 };
 
 export const getUsersCount = async (): Promise<number> => {
-    const res = await api.get('/users/count');
+    const res = await api.get<{ count: number }>('/users/count');
     return res.data.count;
 };
 
 export const getUserPosts = async (userId: string) => {
-    const response = await api.get(`/posts?userId=${userId}`);
+    const response = await api.get<Post[]>(`/posts?userId=${userId}`);
     return response.data;
 };

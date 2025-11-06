@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import deleteIcon from '../../assets/delete-icon.svg';
 import { cn } from '../../utils/cn';
 
@@ -7,9 +8,10 @@ export interface PostCardProps {
     onDelete?: () => void;
     onClick?: () => void;
     className?: string;
+    isDeleting?: boolean;
 }
 
-export function PostCard({ title, content, onDelete, onClick, className }: PostCardProps) {
+export function PostCard({ title, content, onDelete, onClick, className, isDeleting = false }: PostCardProps) {
     return (
         <div
             className={cn(
@@ -31,9 +33,14 @@ export function PostCard({ title, content, onDelete, onClick, className }: PostC
                         <button
                             onClick={(e) => {
                                 e.stopPropagation();
-                                onDelete();
+                                if (!isDeleting) {
+                                    onDelete();
+                                }
                             }}
-                            className="p-1 hover:bg-red-50 rounded transition-colors"
+                            disabled={isDeleting}
+                            aria-label="Delete post"
+                            className="p-1 hover:bg-red-50 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                            title={isDeleting ? "Deleting..." : "Delete post"}
                         >
                             <img src={deleteIcon} alt="Delete" className="w-3 h-3" />
                         </button>
@@ -62,4 +69,6 @@ export function PostCard({ title, content, onDelete, onClick, className }: PostC
         </div>
     );
 }
+
+export const MemoizedPostCard = memo(PostCard);
 
