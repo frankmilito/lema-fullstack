@@ -31,8 +31,10 @@ The server should now be accessible at `http://localhost:3001`.
 5. Start the development server with `npm run dev`.
 6. Build the client side with `npm run build`.
 7. Test the components with `npm run test`.
+8. (Optional) Run Storybook with `npm run storybook` to view component documentation and stories.
 
 The client should now be accessible at `http://localhost:5173`.
+Storybook will be accessible at `http://localhost:6006` when running (optional).
 
 ## Live Application
 
@@ -45,6 +47,7 @@ The client should now be accessible at `http://localhost:5173`.
 project-root/
 ├── .gitignore
 ├── README.md
+├── IMPLEMENTATION.md              # Implementation details and architecture
 ├── backend/
 │   ├── config/
 │   │   └── default.json
@@ -70,88 +73,14 @@ project-root/
 │   │   │   └── users.ts
 │   │   └── schemas/
 │   └── tsconfig.json
-├── frontend/
-│   ├── __mocks__/
-│   │   └── fileMock.js
-│   ├── dist/
-│   ├── eslint.config.js
-│   ├── index.html
-│   ├── jest.config.cjs
-│   ├── package.json
-│   ├── package-lock.json
-│   ├── postcss.config.js
-│   ├── public/
-│   │   ├── _redirects
-│   │   └── vite.svg
-│   ├── README.md
-│   ├── src/
-│   │   ├── App.tsx
-│   │   ├── assets/
-│   │   │   ├── add_circle.svg
-│   │   │   ├── chevron-left.svg
-│   │   │   ├── chevron-right.svg
-│   │   │   └── delete-icon.svg
-│   │   ├── components/
-│   │   │   ├── ErrorBoundary.tsx
-│   │   │   ├── layout/
-│   │   │   │   └── PageLayout.tsx
-│   │   │   ├── posts/
-│   │   │   │   ├── AddPostCard.tsx
-│   │   │   │   ├── AddPostForm.test.tsx
-│   │   │   │   ├── AddPostForm.tsx
-│   │   │   │   ├── AddPostFormModal.tsx
-│   │   │   │   ├── DeleteConfirmationModal.tsx
-│   │   │   │   ├── PostCard.tsx
-│   │   │   │   └── UserPostsContent.tsx
-│   │   │   ├── ui/
-│   │   │   │   ├── Button.tsx
-│   │   │   │   ├── EmptyMessage.tsx
-│   │   │   │   ├── Modal.tsx
-│   │   │   │   ├── Pagination.test.tsx
-│   │   │   │   ├── Pagination.tsx
-│   │   │   │   ├── Spinner.tsx
-│   │   │   │   └── Table/
-│   │   │   │       ├── index.ts
-│   │   │   │       ├── Table.test.tsx
-│   │   │   │       ├── Table.tsx
-│   │   │   │       └── types.ts
-│   │   │   └── users/
-│   │   │       └── UsersTable.tsx
-│   │   ├── hooks/
-│   │   │   ├── usePosts.ts
-│   │   │   └── useUsers.ts
-│   │   ├── index.css
-│   │   ├── jest-dom.d.ts
-│   │   ├── main.tsx
-│   │   ├── pages/
-│   │   │   ├── Users.tsx
-│   │   │   └── UsersPost.tsx
-│   │   ├── routes/
-│   │   │   └── AppRoutes.tsx
-│   │   ├── schemas/
-│   │   │   └── post.ts
-│   │   ├── services/
-│   │   │   ├── api.ts
-│   │   │   ├── posts.ts
-│   │   │   └── users.ts
-│   │   ├── setupTests.ts
-│   │   ├── svg.d.ts
-│   │   ├── types/
-│   │   │   ├── post.ts
-│   │   │   └── users.ts
-│   │   ├── utils/
-│   │   │   ├── cn.ts
-│   │   │   ├── queryKeys.ts
-│   │   │   └── validation.ts
-│   │   └── vite-env.d.ts
-│   ├── tailwind.config.ts
-│   ├── tsconfig.app.json
-│   ├── tsconfig.jest.json
-│   ├── tsconfig.json
-│   ├── tsconfig.node.json
-│   ├── vercel.json
-│   └── vite.config.ts
+└── frontend/
+    ├── .storybook/                 # Storybook configuration
+    ├── src/                        # Source code (see IMPLEMENTATION.md for structure)
+    ├── package.json
+    └── ...                         # Other config files
 ```
+
+> **Note**: For detailed frontend structure and implementation details, see [IMPLEMENTATION.md](./IMPLEMENTATION.md)
 
 ## Backend
 

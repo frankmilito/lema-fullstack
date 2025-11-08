@@ -1,32 +1,18 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import AppRoutes from './routes/AppRoutes.tsx'
+import { QueryProvider } from '@app/providers/QueryProvider'
+import { AppRoutes } from '@app/router/AppRoutes'
 import { Toaster } from "react-hot-toast";
-import { ErrorBoundary } from './components/ErrorBoundary';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: 1,
-      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-      staleTime: 5 * 60 * 1000,
-    },
-    mutations: {
-      retry: 1,
-    },
-  },
-});
+import { ErrorBoundary } from '@shared/components/feedback/ErrorBoundary';
 
 createRoot(document.getElementById('root')!).render(
-  <QueryClientProvider client={queryClient}>
+  <QueryProvider>
     <StrictMode>
       <ErrorBoundary>
         <Toaster />
         <AppRoutes />
       </ErrorBoundary>
     </StrictMode>
-  </QueryClientProvider>
-  ,
+  </QueryProvider>
 )
