@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { fn } from '@storybook/test';
 import { Modal } from './index';
 import { Button } from '../Button';
 
@@ -25,7 +24,7 @@ const meta = {
       description: 'Close modal when clicking backdrop',
     },
   },
-  args: { onClose: fn() },
+  args: { onClose: () => { } },
 } satisfies Meta<typeof Modal>;
 
 export default meta;
