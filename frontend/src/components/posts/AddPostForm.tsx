@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '../ui';
+import { Button, Typography } from '../ui';
 import { postFormSchema, type PostFormData } from '../../schemas/post';
 import { cn } from '../../utils/cn';
 
@@ -37,9 +37,9 @@ export function AddPostForm({
     return (
         <form onSubmit={handleSubmit(onSubmitForm)} className="space-y-6">
             <div>
-                <label htmlFor="post-title" className="block text-sm sm:text-md font-medium text-primary-100 mb-2">
+                <Typography variant="label" component="label" htmlFor="post-title" className="block mb-2">
                     Post title
-                </label>
+                </Typography>
                 <input
                     id="post-title"
                     type="text"
@@ -54,16 +54,16 @@ export function AddPostForm({
                     aria-describedby={errors.title ? 'title-error' : undefined}
                 />
                 {errors.title && (
-                    <p id="title-error" className="mt-1 text-xs sm:text-sm text-red-500" role="alert">
+                    <Typography variant="error" id="title-error" className="mt-1" role="alert">
                         {errors.title.message}
-                    </p>
+                    </Typography>
                 )}
             </div>
 
             <div>
-                <label htmlFor="post-body" className="block text-sm sm:text-md font-medium text-primary-100 mb-2">
+                <Typography variant="label" component="label" htmlFor="post-body" className="block mb-2">
                     Post content
-                </label>
+                </Typography>
                 <textarea
                     id="post-body"
                     {...register('body')}
@@ -77,9 +77,9 @@ export function AddPostForm({
                     disabled={isFormLoading}
                 />
                 {errors.body && (
-                    <p className="mt-1 text-xs sm:text-sm text-red-500" role="alert">
+                    <Typography variant="error" className="mt-1" role="alert">
                         {errors.body.message}
-                    </p>
+                    </Typography>
                 )}
             </div>
 

@@ -4,6 +4,7 @@ import { PostCard } from "./PostCard";
 import { AddPostCard } from "./AddPostCard";
 import type { Post } from "../../types/post";
 import chevronRightIcon from "../../assets/chevron-right.svg";
+import { Typography } from "../ui";
 
 export interface UserPostsContentProps {
     name?: string;
@@ -44,9 +45,9 @@ export function UserPostsContent({
             </div>
 
             <div className="mb-6">
-                <h1 className="text-xl sm:text-3xl font-medium text-primary-100 mb-6">
+                <Typography variant="h1" className="mb-6">
                     {name || 'User Posts'}
-                </h1>
+                </Typography>
                 <div className="text-xs sm:text-sm text-primary-200">
                     {name} &bull; <span className="text-primary-100">{posts?.length || 0} {posts?.length === 1 ? 'Post' : 'Posts'}</span>
                 </div>

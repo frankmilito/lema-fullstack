@@ -4,6 +4,7 @@ import { UsersTable } from '../components/users/UsersTable';
 import { PageLayout } from '../components/layout/PageLayout';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import type { User } from '../types/users';
+import { Typography } from '../components/ui';
 
 const Users = () => {
     const navigate = useNavigate();
@@ -42,7 +43,7 @@ const Users = () => {
     return (
         <PageLayout>
             <div className="space-y-6 mx-auto max-w-[880px]">
-                <h1 className="text-2xl sm:text-3xl font-medium text-primary-100">Users</h1>
+                <Typography variant="h1">Users</Typography>
                 <UsersTable
                     users={users}
                     isLoading={isLoading}

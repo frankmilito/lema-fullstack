@@ -3,3 +3,4 @@ export { default as Spinner } from './Spinner';
 export { Modal } from './Modal';
 export { EmptyMessage } from './EmptyMessage';
 export { Pagination } from './Pagination';
+export { Typography } from './Typography';

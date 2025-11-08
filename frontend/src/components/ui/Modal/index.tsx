@@ -1,5 +1,6 @@
 import { useEffect, useRef, type ReactNode } from 'react';
 import { cn } from '../../../utils/cn';
+import { Typography } from '../Typography';
 
 export interface ModalProps {
     isOpen: boolean;
@@ -81,9 +82,9 @@ export function Modal({
             >
                 {title && (
                     <div className="px-4 pt-4 pb-3 sm:px-6 sm:pt-6 sm:pb-4">
-                        <h2 id="modal-title" className="text-xl sm:text-2xl font-medium text-primary-100">
+                        <Typography variant="h2" id="modal-title">
                             {title}
-                        </h2>
+                        </Typography>
                     </div>
                 )}
                 <div className={title ? 'px-4 py-4 sm:px-6 sm:py-6' : 'p-4 sm:p-6'}>

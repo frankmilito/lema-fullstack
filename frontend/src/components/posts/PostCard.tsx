@@ -1,5 +1,6 @@
 import deleteIcon from '../../assets/delete-icon.svg';
 import { cn } from '../../utils/cn';
+import { Typography } from '../ui';
 
 export interface PostCardProps {
     title: string;
@@ -36,16 +37,18 @@ export function PostCard({ title, content, onDelete, className, isDeleting = fal
                         </button>
                     </div>
                 )}
-                <h3
-                    className="text-base sm:text-lg font-medium text-primary-100 pr-2 flex-1 overflow-hidden"
+                <Typography
+                    variant="h3"
+                    className="pr-2 flex-1 overflow-hidden"
                     style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}
                 >
                     {title}
-                </h3>
+                </Typography>
             </div>
 
-            <p
-                className="text-xs sm:text-sm text-gray-700 overflow-hidden"
+            <Typography
+                variant="body"
+                className="overflow-hidden"
                 style={{
                     display: '-webkit-box',
                     WebkitLineClamp: 8,
@@ -55,7 +58,7 @@ export function PostCard({ title, content, onDelete, className, isDeleting = fal
                 }}
             >
                 {content}
-            </p>
+            </Typography>
         </div>
     );
 }
