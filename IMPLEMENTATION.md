@@ -10,18 +10,18 @@ The frontend follows a **feature-based architecture** that promotes scalability,
 
 ```
 src/
-├── app/                          # App-level configuration
-│   ├── providers/                # Context providers (QueryClient, etc.)
-│   └── router/                   # Route configuration
+├── app/
+│   ├── providers/
+│   └── router/
 │
-├── features/                     # Feature-based organization
+├── features/
 │   ├── users/
-│   │   ├── api/                  # API calls specific to users
-│   │   │   ├── queries.ts        # React Query hooks
-│   │   │   └── endpoints.ts      # API endpoint definitions
-│   │   ├── components/           # Feature-specific components
-│   │   ├── types/                # TypeScript types
-│   │   └── pages/                # Pages for this feature
+│   │   ├── api/
+│   │   │   ├── queries.ts
+│   │   │   └── endpoints.ts
+│   │   ├── components/
+│   │   ├── types/
+│   │   └── pages/
 │   │
 │   └── posts/
 │       ├── api/
@@ -29,19 +29,19 @@ src/
 │       │   ├── mutations.ts
 │       │   └── endpoints.ts
 │       ├── components/
-│       ├── schemas/               # Validation schemas
+│       ├── schemas/
 │       ├── types/
 │       └── pages/
 │
-├── shared/                       # Shared/common code
-│   ├── components/               # Reusable UI components
-│   │   ├── ui/                   # Basic UI elements
-│   │   ├── layout/               # Layout components
-│   │   └── feedback/             # Error/Loading states
-│   ├── utils/                    # Utility functions
-│   └── constants/                # App constants
+├── shared/
+│   ├── components/
+│   │   ├── ui/
+│   │   ├── layout/
+│   │   └── feedback/
+│   ├── utils/
+│   └── constants/
 │
-└── assets/                       # Static assets
+└── assets/
 ```
 
 ### Path Aliases
@@ -55,10 +55,6 @@ The project uses TypeScript path aliases for cleaner imports:
 
 **Example:**
 ```typescript
-// Instead of:
-import { Button } from '../../../shared/components/ui';
-
-// Use:
 import { Button } from '@shared/components/ui';
 ```
 
